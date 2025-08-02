@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  username   String       @unique
+  password   String
+  profilePic String?
+  following  Follows[]    @relation("following")
+  followedBy Follows[]    @relation("followedBy")
+  posts      Posts[]
+  comments   Comments[]
+  likes      Likes[]
+  followReqs FollowReqs[]
+}
+
+model Follows {
+  following          User   @relation("following", fields: [followingUsername], references: [username])
+  followingUsername  String
+  followedBy         User   @relation("followedBy", fields: [followedByUsername], references: [username])
+  followedByUsername String
+
+  @@id([followingUsername, followedByUsername])
+}
+
+model Posts {
+  id             Int        @id @default(autoincrement())
+  text           String?
+  image          String?
+  comments       Comments[]
+  likes          Likes[]
+  author         User       @relation(fields: [authorUsername], references: [username])
+  authorUsername String
+}
+
+model Comments {
+  id                  Int    @id @default(autoincrement())
+  text                String
+  post                Posts  @relation(fields: [postId], references: [id])
+  postId              Int
+  commentedBy         User   @relation(fields: [commentedByUsername], references: [username])
+  commentedByUsername String
+}
+
+model Likes {
+  postLiked       Posts  @relation(fields: [postLikedId], references: [id])
+  postLikedId     Int
+  likedBy         User   @relation(fields: [likedByUsername], references: [username])
+  likedByUsername String
+
+  @@id([postLikedId, likedByUsername])
+}
+
+model FollowReqs {
+  user                  User   @relation(fields: [followReqToUsername], references: [username])
+  followReqToUsername   String
+  followReqFromUsername String
+
+  @@id([followReqToUsername, followReqFromUsername])
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}

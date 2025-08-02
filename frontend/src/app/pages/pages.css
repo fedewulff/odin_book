@@ -1,0 +1,84 @@
+/*NEW POST*/
+.newPost-container {
+  display: flex;
+  flex-direction: column;
+  width: 50rem;
+  height: 100svh;
+  background: var(--yellow);
+  padding: 1.5rem;
+  /* border-radius: 5px; */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(-100svh - 18rem);
+  transition: 400ms ease-out;
+  opacity: 0;
+  border: 1px solid pink;
+  z-index: 1;
+}
+.newPost-container.active {
+  opacity: 1;
+  bottom: 0;
+  transition: 400ms ease-out;
+}
+.newPost-deerIcon {
+  margin: 1.5rem auto 0;
+  font-size: 4rem;
+  color: var(--darkgreen);
+}
+.newPost-icon {
+  margin: 3rem auto;
+  background: none;
+  border: none;
+  width: fit-content;
+}
+.newPost-icon :first-child {
+  cursor: pointer;
+  font-size: 2rem;
+  color: var(--darkgreen);
+}
+.newPost-container p {
+  font-size: 1rem;
+  color: var(--darkgreen);
+}
+.newPost-container form {
+  display: flex;
+  flex-direction: column;
+}
+.newPost-container form label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.newPost-container form textarea {
+  border: none;
+  border-radius: 5px;
+  padding: 1rem;
+  font-size: 1.5rem;
+  background: var(--white);
+  resize: none;
+}
+.newPost-container form textarea::-webkit-scrollbar {
+  display: none; /*CHROME SAFARI OPERA*/
+}
+.newPost-container form textarea {
+  -ms-overflow-style: none; /*MOZILLA*/
+  scrollbar-width: none; /*EXPORER EDGE*/
+}
+.newPost-container form button {
+  width: fit-content;
+  font-size: 2rem;
+  padding: 0.5rem 1.5rem;
+  margin: 2rem auto;
+  background: var(--darkgreen);
+  color: var(--yellow);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

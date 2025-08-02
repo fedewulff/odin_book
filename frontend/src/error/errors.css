@@ -1,0 +1,29 @@
+.deer-icon-error {
+  color: var(--yellow);
+  font-size: 6rem;
+  margin: 3rem auto;
+  display: block;
+}
+
+.error-on-request {
+  margin: 0 auto 3rem;
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.error-on-request h1 {
+  color: var(--yellow);
+  margin-bottom: 2rem;
+  font-size: 2.75rem;
+}
+
+.error-on-request p {
+  color: var(--white);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.error-on-request span {
+  color: var(--yellow);
+  font-weight: 800;
+  letter-spacing: 1px;
+}

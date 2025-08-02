@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto Flex", sans-serif;
+}
+:root {
+  --darkgreen: #2c3930;
+  --green: #3f4f44;
+  --yellow: #a27b5c;
+  --white: #dcd7c9;
+}
+body {
+  background: var(--darkgreen);
+}
