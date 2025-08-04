@@ -23,3 +23,11 @@
   color: var(--yellow);
   font-size: 4rem;
 }
+.loading {
+  margin: 8rem auto 0;
+  width: fit-content;
+  font-size: 5rem;
+  font-weight: 600;
+  letter-spacing: 0.25rem;
+  color: var(--yellow);
+}

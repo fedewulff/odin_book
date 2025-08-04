@@ -21,11 +21,8 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         credentials: "include",
         body: JSON.stringify({ username, password }),
       })
-
-      console.log(response)
-
       if (response.status === 200) {
-        console.log("pipipi")
+        navigate("/home")
       }
       if (response.status === 401) {
         const data = await response.json()
@@ -33,7 +30,6 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         return
       }
       if (response.status === 409) {
-        console.log(909090)
         navigate("/home")
         return
       }
@@ -41,12 +37,6 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         setStatusCode(response.status)
         throw new Error(`${response.statusText} - Error code:${response.status}`)
       }
-      // if (response.ok) {
-      //   navigate("/home", { state: { token: data.accessToken } })
-      // } else {
-      //   console.error("Login error:", data.errorMessage)
-      //   setErrorMessage(data.errorMessage)
-      // }
     } catch (error) {
       console.error(error)
       setError(true)
