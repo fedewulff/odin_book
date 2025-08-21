@@ -13,7 +13,6 @@
   bottom: calc(-100svh - 18rem);
   transition: 400ms ease-out;
   opacity: 0;
-  border: 1px solid pink;
   z-index: 1;
 }
 .newPost-container.active {
@@ -60,17 +59,11 @@
   border: none;
   border-radius: 5px;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   background: var(--white);
   resize: none;
 }
-.newPost-container form textarea::-webkit-scrollbar {
-  display: none; /*CHROME SAFARI OPERA*/
-}
-.newPost-container form textarea {
-  -ms-overflow-style: none; /*MOZILLA*/
-  scrollbar-width: none; /*EXPORER EDGE*/
-}
+
 .newPost-container form button {
   width: fit-content;
   font-size: 2rem;
@@ -81,4 +74,29 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.newPost-container form textarea::-webkit-scrollbar {
+  display: none; /*CHROME SAFARI OPERA*/
+}
+.newPost-container form textarea {
+  -ms-overflow-style: none; /*MOZILLA*/
+  scrollbar-width: none; /*EXPORER EDGE*/
+}
+
+/* .newPost-container form textarea:focus-visible {
+  outline: 0.25rem solid var(--darkgreen);
+}
+.users-list li button:focus-visible,
+.friend-req-list li button:focus-visible {
+  outline: 0.125rem solid var(--white);
+} */
+
+@media (max-width: 600px) {
+  .newPost-container {
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .newPost-container form textarea {
+    font-size: 1rem;
+  }
 }

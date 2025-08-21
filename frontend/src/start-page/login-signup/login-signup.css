@@ -1,8 +1,9 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  width: 20rem;
+  width: 25rem;
   height: calc(100svh - 15rem);
+  overflow-y: scroll;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -14,6 +15,9 @@
   opacity: 1;
   bottom: 0rem;
   transition: 600ms ease-out;
+}
+.formContainer form {
+  padding: 0.25rem;
 }
 .formContainer label {
   position: absolute;
@@ -47,7 +51,12 @@
   background: var(--yellow);
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+}
+.formContainer form button.hide-signup {
+  background: none;
+  margin: 2rem auto 0;
+  color: var(--yellow);
+  font-size: 2rem;
 }
 .guest-button,
 .signup-button {
@@ -80,18 +89,13 @@
   gap: 0.5rem;
   min-height: 3rem;
 }
-.errorMsg {
+.error-list-msg {
   font-size: 1rem;
   list-style-type: none;
   color: var(--yellow);
   min-height: 1.25rem;
 }
-.hide-signup {
-  margin: 3rem auto 0;
-  fill: var(--yellow);
-  font-size: 2rem;
-  cursor: pointer;
-}
+
 .hide-signup :hover {
   fill: var(--white);
 }
@@ -122,4 +126,38 @@
 .division-line {
   border: 1px solid var(--white);
   width: 100%;
+}
+
+.formContainer::-webkit-scrollbar {
+  display: none; /*CHROME SAFARI OPERA*/
+}
+.formContainer {
+  -ms-overflow-style: none; /*MOZILLA*/
+  scrollbar-width: none; /*EXPORER EDGE*/
+}
+
+@media (max-width: 600px) {
+  .formContainer {
+    width: 95%;
+  }
+  .formContainer {
+    height: calc(100svh - 12rem);
+  }
+}
+
+@media (max-height: 800px) {
+  .formContainer {
+    min-height: calc(100svh - 10rem);
+    /* overflow-y: scroll; */
+  }
+
+  .formContainer input {
+    font-size: 1rem;
+  }
+  .error-list {
+    gap: 0.25rem;
+  }
+  .hide-signup {
+    margin: 1rem auto 0.5rem;
+  }
 }

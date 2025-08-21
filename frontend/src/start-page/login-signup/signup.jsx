@@ -14,33 +14,30 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
   const showLoginForm = () => setShowLogin(!showLogin)
 
   function validateUsername(e) {
-    const username = e.target.value
-    setUsername(username)
-    const usernameRegex = /^.{4,20}$/
-    setIsValidUsername(usernameRegex.test(username))
+    setUsername(e.target.value)
+    const usernameRegex = /^[a-z0-9_.-]{4,16}$/
+    setIsValidUsername(usernameRegex.test(e.target.value))
   }
   function validatePassword(e) {
-    const newPassword = e.target.value
-    setPassword(newPassword)
+    setPassword(e.target.value)
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!@#$%^&*()_+])[A-Za-z\d.!@#$%^&*()_+]{8,25}$/
-    setIsValidPwd(passwordRegex.test(newPassword))
-    if (confirmPassword === newPassword) {
+    setIsValidPwd(passwordRegex.test(e.target.value))
+    if (confirmPassword === e.target.value) {
       setPasswordsMatch(true)
     } else setPasswordsMatch(false)
   }
   function validateConfPassword(e) {
-    const newConfPassword = e.target.value
-    setConfirmPassword(newConfPassword)
+    setConfirmPassword(e.target.value)
     const confirmPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!@#$%^&*()_+])[A-Za-z\d.!@#$%^&*()_+]{8,25}$/
-    setIsValidConfPwd(confirmPasswordRegex.test(newConfPassword))
-    if (newConfPassword === password) {
+    setIsValidConfPwd(confirmPasswordRegex.test(e.target.value))
+    if (e.target.value === password) {
       setPasswordsMatch(true)
     } else setPasswordsMatch(false)
   }
 
   async function signUp(e) {
     e.preventDefault()
-    errorSigningUp()
+    setSignUpError([])
     if (!isValidUsername || !isValidPwd || !isValidConfPwd || !passwordsMatch) return
     try {
       const response = await fetch("http://localhost:3001/signup", {
@@ -88,19 +85,20 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
           value={username.replace(/\s/g, "")}
           onChange={validateUsername}
         />
-        <div className="input-requirements">Must be 4-20 characters long</div>
+        <div className="input-requirements">Must be 4-16 characters long.Use only lowercase, numbers and _ . -</div>
         <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
           id="password"
           placeholder="Password"
+          maxLength={25}
           className={!password || isValidPwd ? "valid-input" : "not-valid-input"}
           value={password.replace(/\s/g, "")}
           onChange={validatePassword}
         />
         <div className="input-requirements">
-          Must be 8-25 characters long, include uppercase, lowercase, number, and special character: .!@#$%^&*()_+{" "}
+          Must be 8-25 characters long, include uppercase, lowercase, number, and special character .!@#$%^&*()_+{" "}
         </div>
         <label htmlFor="confirmPassword">Confirm password</label>
         <input
@@ -108,20 +106,23 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
           name="confirmPassword"
           id="confirmPassword"
           placeholder="Confirm password"
+          maxLength={25}
           className={!confirmPassword || (isValidConfPwd && passwordsMatch) ? "valid-input" : "not-valid-input"}
           value={confirmPassword.replace(/\s/g, "")}
           onChange={validateConfPassword}
         />
         <ul className="error-list">
           {signUpError.map((error, index) => (
-            <li key={index} className="errorMsg">
+            <li key={index} className="error-list-msg">
               {error.msg}
             </li>
           ))}
         </ul>
         <button type="submit">Sign up</button>
+        <button type="button" onClick={showLoginForm} className="hide-signup">
+          <FaArrowDown />
+        </button>
       </form>
-      <FaArrowDown onClick={showLoginForm} className="hide-signup" />
     </div>
   )
 }

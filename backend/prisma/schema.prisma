@@ -28,9 +28,9 @@ model User {
 }
 
 model Follows {
-  following          User   @relation("following", fields: [followingUsername], references: [username])
+  following          User   @relation("following", fields: [followingUsername], references: [username], onDelete: Cascade)
   followingUsername  String
-  followedBy         User   @relation("followedBy", fields: [followedByUsername], references: [username])
+  followedBy         User   @relation("followedBy", fields: [followedByUsername], references: [username], onDelete: Cascade)
   followedByUsername String
 
   @@id([followingUsername, followedByUsername])
@@ -40,32 +40,33 @@ model Posts {
   id             Int        @id @default(autoincrement())
   text           String?
   image          String?
+  showComments   Boolean    @default(false)
   comments       Comments[]
   likes          Likes[]
-  author         User       @relation(fields: [authorUsername], references: [username])
+  author         User       @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
   authorUsername String
 }
 
 model Comments {
   id                  Int    @id @default(autoincrement())
   text                String
-  post                Posts  @relation(fields: [postId], references: [id])
+  post                Posts  @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId              Int
-  commentedBy         User   @relation(fields: [commentedByUsername], references: [username])
+  commentedBy         User   @relation(fields: [commentedByUsername], references: [username], onDelete: Cascade)
   commentedByUsername String
 }
 
 model Likes {
-  postLiked       Posts  @relation(fields: [postLikedId], references: [id])
+  postLiked       Posts  @relation(fields: [postLikedId], references: [id], onDelete: Cascade)
   postLikedId     Int
-  likedBy         User   @relation(fields: [likedByUsername], references: [username])
+  likedBy         User   @relation(fields: [likedByUsername], references: [username], onDelete: Cascade)
   likedByUsername String
 
   @@id([postLikedId, likedByUsername])
 }
 
 model FollowReqs {
-  user                  User   @relation(fields: [followReqToUsername], references: [username])
+  user                  User   @relation(fields: [followReqToUsername], references: [username], onDelete: Cascade)
   followReqToUsername   String
   followReqFromUsername String
 

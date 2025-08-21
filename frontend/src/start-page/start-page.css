@@ -1,17 +1,12 @@
-.startPage-container,
-.title-logo {
+.startPage-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.startPage-container {
-  margin: auto;
-  width: 25rem;
-  height: 100svh;
-}
-.title-logo {
+.deer-icon {
   margin-top: 2rem;
-  height: 9rem;
+  color: var(--yellow);
+  font-size: 4rem;
 }
 .startPage-container h1 {
   font-weight: 400;
@@ -19,15 +14,18 @@
   letter-spacing: 2px;
   color: var(--white);
 }
-.deer-icon {
-  color: var(--yellow);
-  font-size: 4rem;
+
+@media (max-width: 600px) {
+  .startPage-container h1 {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
 }
-.loading {
-  margin: 8rem auto 0;
-  width: fit-content;
-  font-size: 5rem;
-  font-weight: 600;
-  letter-spacing: 0.25rem;
-  color: var(--yellow);
+@media (max-height: 800px) {
+  .deer-icon {
+    margin-top: 1rem;
+  }
+  .startPage-container {
+    overflow-y: scroll;
+  }
 }

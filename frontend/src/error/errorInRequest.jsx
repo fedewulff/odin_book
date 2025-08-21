@@ -1,7 +1,7 @@
 import "./errors.css"
 import { GiDeer } from "react-icons/gi"
 
-function ErrorRequest({ statusCode }) {
+function ErrorInRequest({ statusCode }) {
   return (
     <>
       <GiDeer className="deer-icon-error" />
@@ -20,4 +20,4 @@ function ErrorRequest({ statusCode }) {
   )
 }
 
-export default ErrorRequest
+export default ErrorInRequest

@@ -1,0 +1,190 @@
+/*PROFILE*/
+.profile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.logout {
+  display: block;
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--white);
+  cursor: pointer;
+}
+.profile-name-pic {
+  margin-bottom: 0.5rem;
+}
+.profile-name {
+  color: var(--yellow);
+  font-size: 2rem;
+}
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  background: var(--green);
+  padding: 0.5rem;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.profile-content-icons {
+  display: flex;
+  justify-content: space-around;
+}
+.profile-icon {
+  display: flex;
+  padding: 0.25rem 0.25rem 0 0.25rem;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 3rem;
+  color: var(--yellow);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.profile-icon.active {
+  background: var(--darkgreen);
+}
+.profile-content-data {
+  background: var(--darkgreen);
+  height: 100%;
+  border-radius: 5px;
+  overflow-y: scroll;
+  padding: 0.5rem;
+}
+
+/*PROFILE MY POSTS*/
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style-type: none;
+}
+.post {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
+  word-wrap: break-word; /* For older browsers */
+  overflow-wrap: break-word;
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+}
+.delete-post-button {
+  width: fit-content;
+  padding: 0.25rem 2rem;
+  margin: 0.5rem 0 0.5rem auto;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--red);
+  cursor: pointer;
+}
+/*PROFILE FOLLOWS*/
+.following-followers-btns {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+}
+.following-followers-btns button {
+  color: var(--yellow);
+  font-size: 1.5rem;
+  padding-bottom: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 2rem;
+  margin-bottom: 1rem;
+}
+.following-followers-btns .show-follow {
+  border-bottom: 2px solid var(--yellow);
+}
+
+.following-followers-list li {
+  display: flex;
+  justify-content: space-between;
+  color: var(--white);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.following-followers-delete-button {
+  color: var(--white);
+  padding: 0.25rem 2rem;
+  border: none;
+  border-radius: 5px;
+  background: var(--red);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/*PROFILE MY COMMENTS*/
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style-type: none;
+}
+.comment {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
+  word-wrap: break-word; /* For older browsers */
+  overflow-wrap: break-word;
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+}
+.delete-comment-button {
+  width: fit-content;
+  padding: 0.25rem 2rem;
+  margin: 0.5rem 0 0.5rem auto;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--red);
+  cursor: pointer;
+}
+
+.profile-content-data::-webkit-scrollbar {
+  display: none; /*CHROME SAFARI OPERA*/
+}
+
+.profile-content-data {
+  -ms-overflow-style: none; /*MOZILLA*/
+  scrollbar-width: none; /*EXPORER EDGE*/
+}
+
+.error {
+  color: var(--yellow);
+  margin: auto;
+  width: fit-content;
+  margin-top: 2rem;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .logout {
+    font-size: 1rem;
+  }
+  .profile-name {
+    font-size: 2rem;
+  }
+  .profile-icon {
+    font-size: 2.5rem;
+  }
+
+  .following-followers-list li {
+    font-size: 1rem;
+    flex-wrap: wrap;
+  }
+  .delete-post-button,
+  .following-followers-delete-button,
+  .delete-comment-button {
+    padding: 0.25rem 1rem;
+  }
+}

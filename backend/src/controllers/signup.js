@@ -9,8 +9,8 @@ const validateSignUp = [
     .trim()
     .notEmpty()
     .withMessage("Username cannot be empty")
-    .isLength({ min: 4, max: 25 })
-    .withMessage(`Username has to be between 4 and 25 characters long`)
+    .matches(/^[a-z0-9_.-]{4,16}$/)
+    .withMessage(`Username has to be between 4 and 16 characters long and only include lowercase, numbers and _ . or -`)
     .custom(async (username) => {
       const user = await prisma.user.findUnique({
         where: {
@@ -26,7 +26,7 @@ const validateSignUp = [
     .notEmpty()
     .withMessage(`Password cannot be empty`)
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!@#$%^&*()_+])[A-Za-z\d.!@#$%^&*()_+]{8,25}$/)
-    .withMessage("Password must be between 8 and 25 characters long and include uppercase, lowercase, number, and special character."),
+    .withMessage("Password must be between 8 and 25 characters long and include uppercase, lowercase, number, and special character"),
   body("confirmPassword")
     .trim()
     .notEmpty()
@@ -55,7 +55,6 @@ module.exports.signup = [
       },
     })
     res.sendStatus(200)
-    //throw new CustomError("algo malo paso", "pepito peposo", 500, "olololo")
   },
   ,
 ]

@@ -12,6 +12,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
 
   async function login(e) {
     e.preventDefault()
+    if (!username || !password) return
     try {
       const response = await fetch("http://localhost:3001/login", {
         method: "POST",
@@ -53,7 +54,6 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
           id="usernameLogin"
           autoComplete="off"
           placeholder="Username"
-          required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -63,11 +63,10 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
           name="password"
           id="passwordLogin"
           placeholder="Password"
-          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="errorMsg">{errorMessage}</div>
+        <div className="error-list-msg">{errorMessage}</div>
         <button type="submit">Log in</button>
       </form>
       <button className="guest-button">Log in as guest</button>

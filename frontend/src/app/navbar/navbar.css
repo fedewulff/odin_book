@@ -1,12 +1,12 @@
 .navbar {
-  border: 1px solid yellow;
+  background: var(--darkgreen);
   display: flex;
   justify-content: space-around;
-  vertical-align: bottom;
-  position: absolute;
-  bottom: 0;
+  align-items: center;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0rem;
+  height: 7%;
+  z-index: 1;
 }
 
 .navbar button {
@@ -21,4 +21,13 @@
   flex-shrink: 0;
   padding: 0;
   color: var(--yellow);
+}
+
+@media (max-width: 600px) {
+  .icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    padding: 0;
+    color: var(--yellow);
+  }
 }

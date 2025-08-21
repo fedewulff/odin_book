@@ -20,10 +20,6 @@ function StartPage() {
         const response = await fetch("http://localhost:3001/isNotAuthenticated", {
           credentials: "include",
         })
-        if (response.status === 200) {
-          setShowStartPage(true)
-          return
-        }
         if (response.status === 409) {
           navigate("/home")
           return
@@ -32,6 +28,7 @@ function StartPage() {
           setStatusCode(response.status)
           throw new Error(`${response.statusText} - Error code:${response.status}`)
         }
+        setShowStartPage(true)
       } catch (error) {
         console.error(error)
         setError(true)
@@ -46,10 +43,8 @@ function StartPage() {
   if (showStartPage)
     return (
       <div className="startPage-container">
-        <div className="title-logo">
-          <GiDeer className="deer-icon" />
-          <h1>Welcome to deer </h1>
-        </div>
+        <GiDeer className="deer-icon" />
+        <h1>Welcome to deer </h1>
         <LogIn showLogin={showLogin} setShowLogin={setShowLogin} setError={setError} setStatusCode={setStatusCode} />
         <SignUp showLogin={showLogin} setShowLogin={setShowLogin} setError={setError} setStatusCode={setStatusCode} />
       </div>

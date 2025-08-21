@@ -1,0 +1,138 @@
+/*USERS*/
+.users-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 2rem;
+}
+.input-container {
+  position: relative;
+  width: 95%;
+  margin: auto;
+}
+.input-container button {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+  border: none;
+  background: none;
+  height: 1.75rem;
+  width: 1.75rem;
+  font-size: 1.75rem;
+}
+.input-container-icon {
+  color: var(--darkgreen);
+}
+.users-container form input {
+  display: block;
+  margin: 1rem auto 0;
+  width: 100%;
+  border: none;
+  padding: 0.25rem 3.75rem 0.25rem 0.25rem;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  background: var(--white);
+}
+.friendReqs-users-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  overflow-y: scroll;
+}
+.users-list,
+.friend-req-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style-type: none;
+  background: var(--green);
+  padding: 1rem;
+  border-radius: 5px;
+  width: 95%;
+  margin: 0 auto;
+}
+.users-list h3,
+.friend-req-list h3 {
+  color: var(--white);
+  font-size: 2rem;
+  text-decoration: underline;
+  margin-bottom: 1rem;
+}
+.users-list li,
+.friend-req-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  color: var(--white);
+}
+
+.users-list li button,
+.friend-req-list li button {
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  width: 8rem;
+  cursor: pointer;
+  padding-bottom: 0.25rem;
+}
+.deny-friend-button {
+  background: var(--red);
+  margin-left: 0.5rem;
+}
+
+.accept-friend-button,
+.follow-button {
+  background: var(--blue);
+}
+.requested-button {
+  background: #606c79;
+}
+
+.users-container form input:focus-visible {
+  outline: 0.25rem solid var(--yellow);
+}
+.users-list li button:focus-visible,
+.friend-req-list li button:focus-visible {
+  outline: 0.125rem solid var(--white);
+}
+
+.friendReqs-users-container::-webkit-scrollbar {
+  display: none; /*CHROME SAFARI OPERA*/
+}
+.friendReqs-users-container {
+  -ms-overflow-style: none; /*MOZILLA*/
+  scrollbar-width: none; /*EXPORER EDGE*/
+}
+
+@media (max-width: 600px) {
+  .users-container form input {
+    font-size: 1rem;
+  }
+  .users-list,
+  .friend-req-list {
+    gap: 0.75rem;
+  }
+  .users-list h3,
+  .friend-req-list h3 {
+    font-size: 1.5rem;
+  }
+  .users-list li,
+  .friend-req-list li {
+    flex-direction: column;
+    gap: 0.125rem;
+    font-size: 1rem;
+  }
+  .friend-req-list li div {
+    display: flex;
+  }
+  .users-list li button,
+  .friend-req-list li button {
+    font-size: 1rem;
+    width: 100%;
+  }
+}
