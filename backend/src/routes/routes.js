@@ -7,9 +7,16 @@ const profile = require("../controllers/profile")
 const createPost = require("../controllers/createPost")
 const home = require("../controllers/home")
 const users = require("../controllers/users")
+const multer = require("../functions/multer")
 
 //CHECK IS NOT LOGGED IN
 routes.get("/isNotAuthenticated", isAuth.checkNotAuthenticated, (req, res) => res.sendStatus(200))
+//GET USERNAME
+routes.get("/getUsername", isAuth.checkAuthenticated, (req, res) => {
+  console.log(req.sessionID, "user auth")
+  console.log(req.user, "req user")
+  res.json({ user: req.user })
+})
 //SIGN UP
 routes.post("/signup", signup.signup)
 //LOG IN
@@ -19,6 +26,8 @@ routes.post("/logout", isAuth.checkAuthenticated, profile.logout)
 
 //PROFILE DATA
 routes.get("/profileData", isAuth.checkAuthenticated, profile.profileData)
+//NEW PROFILE PIC
+routes.post("/newProfilePic", isAuth.checkAuthenticated, multer.upload.single("newFile"), profile.newProfilePic)
 //PROFILE POSTS
 routes.get("/profilePosts", isAuth.checkAuthenticated, profile.profilePosts)
 //DELETE POST

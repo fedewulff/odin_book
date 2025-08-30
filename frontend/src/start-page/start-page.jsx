@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+import socket from "../../socket/socket"
 import { GiDeer } from "react-icons/gi"
 import LogIn from "./login-signup/login"
 import SignUp from "./login-signup/signup"
@@ -28,6 +29,9 @@ function StartPage() {
           setStatusCode(response.status)
           throw new Error(`${response.statusText} - Error code:${response.status}`)
         }
+        console.log(socket)
+        if (socket.connected) socket.disconnect()
+        console.log(socket)
         setShowStartPage(true)
       } catch (error) {
         console.error(error)

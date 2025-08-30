@@ -6,42 +6,50 @@ import { GiDeer } from "react-icons/gi"
 import { IoMdHeart } from "react-icons/io"
 import { RiArrowDownWideLine } from "react-icons/ri"
 
-function Home({ setError, setStatusCode }) {
+function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
+  const [message, setMessage] = useState("")
   const [allPosts, setAllPosts] = useState([])
   const [postData, setPostData] = useState({})
   const [showCommentForm, setShowCommentForm] = useState(false)
   const [loading, setLoading] = useState(true)
+
   const navigate = useNavigate()
 
-  const showCommentFormFunction = (postId, postAuthor, index) => {
+  function showCommentFormFunction(postId, postAuthor, index) {
     setPostData({ postId, postAuthor, index })
     setShowCommentForm(true)
   }
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await fetch("http://localhost:3001/allPosts", {
-          credentials: "include",
-        })
-        if (response.status === 401) {
-          navigate("/")
-          return
-        }
-        if (!response.ok) {
-          setStatusCode(response.status)
-          throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-        }
-        const data = await response.json()
-        setAllPosts(data.allPosts)
-      } catch (error) {
-        console.error(error)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    getAllPosts()
   }, [])
+  function refreshPosts() {
+    getAllPosts()
+    setRefreshBtn(false)
+  }
+  async function getAllPosts() {
+    try {
+      const response = await fetch("http://localhost:3001/allPosts", {
+        credentials: "include",
+      })
+      if (response.status === 401) {
+        navigate("/")
+        return
+      }
+      if (!response.ok) {
+        setStatusCode(response.status)
+        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
+      }
+      const data = await response.json()
+      setRefreshBtn(false)
+      setAllPosts(data.allPosts)
+    } catch (error) {
+      console.error(error)
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
   async function likePost(postId, index) {
     if (!allPosts[index].likes[0]) {
       setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, likes: ["likedPost"] } : post)))
@@ -93,6 +101,11 @@ function Home({ setError, setStatusCode }) {
   if (loading) return <div className="loading">Loading...</div>
   return (
     <div className={showCommentForm ? "home-posts-container no-scroll" : "home-posts-container"}>
+      {refreshBtn && (
+        <button className="refreshBtn" onClick={refreshPosts}>
+          Refresh
+        </button>
+      )}
       <GiDeer className="deer-icon-home" />
       {allPosts[0] && (
         <ul className={"allPosts-list"}>

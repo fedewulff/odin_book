@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import socket from "../../../socket/socket"
 import "./login-signup.css"
 
 function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
@@ -23,6 +24,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         body: JSON.stringify({ username, password }),
       })
       if (response.status === 200) {
+        socket.connect()
         navigate("/home")
       }
       if (response.status === 401) {

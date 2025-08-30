@@ -1,4 +1,5 @@
 const prisma = require("../prisma_client/prisma_client")
+const cloudinary = require("../functions/cloudinary")
 
 //GET PROFILE DATA
 module.exports.profileData = async (req, res) => {
@@ -9,11 +10,30 @@ module.exports.profileData = async (req, res) => {
   })
   res.json({ profileData })
 }
+module.exports.newProfilePic = async (req, res) => {
+  const cloudinaryImage = await cloudinary.uploader.upload(
+    `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
+    { resource_type: "auto" } // Automatically detect resource type
+  )
+
+  await prisma.user.update({
+    where: {
+      username: req.user.username,
+    },
+    data: {
+      profilePic: cloudinaryImage.secure_url,
+    },
+  })
+  res.sendStatus(200)
+}
 //GET PROFILE POSTS
 module.exports.profilePosts = async (req, res) => {
   const profilePosts = await prisma.posts.findMany({
     where: {
       authorUsername: req.user.username,
+    },
+    orderBy: {
+      id: "desc",
     },
   })
   res.json({ profilePosts })
@@ -81,10 +101,14 @@ module.exports.profileComments = async (req, res) => {
     where: {
       commentedByUsername: req.user.username,
     },
+    orderBy: {
+      id: "desc",
+    },
   })
+
   res.json({ profileComments })
 }
-//DELETE POST
+//DELETE COMMENT
 module.exports.deleteComment = async (req, res) => {
   await prisma.comments.delete({
     where: {

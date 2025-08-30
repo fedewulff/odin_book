@@ -1,21 +1,27 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+import socket from "../../../../socket/socket"
 import ErrorInRequest from "../../../error/errorInRequest"
+import ProfilePicForm from "./profilePicForm"
 import MyPosts from "./comments-follows-posts/myPosts"
 import Follows from "./comments-follows-posts/follows"
 import Comments from "./comments-follows-posts/comments"
 import "./profile.css"
+import { BiImageAdd } from "react-icons/bi"
 import { IoMdList } from "react-icons/io"
 import { IoPeopleCircleOutline } from "react-icons/io5"
 import { BiCommentDetail } from "react-icons/bi"
 
 function Profile({ setError, setStatusCode }) {
   const [loading, setLoading] = useState(true)
+  const [showPicForm, setShowPicForm] = useState(false)
   const [profileData, setProfileDate] = useState([])
   const [myPosts, setMyPosts] = useState(true)
   const [follows, setFollows] = useState(false)
   const [comments, setComments] = useState(false)
   const navigate = useNavigate()
+
+  const showPicFormFunction = () => setShowPicForm(!showPicForm)
 
   useEffect(() => {
     ;(async () => {
@@ -32,6 +38,7 @@ function Profile({ setError, setStatusCode }) {
           throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
         }
         const data = await response.json()
+        console.log(data)
         setProfileDate(data.profileData)
       } catch (error) {
         console.error(error)
@@ -42,6 +49,7 @@ function Profile({ setError, setStatusCode }) {
     })()
   }, [])
   async function logout() {
+    socket.disconnect()
     try {
       const response = await fetch("http://localhost:3001/logout", {
         method: "POST",
@@ -66,11 +74,20 @@ function Profile({ setError, setStatusCode }) {
   if (loading) return <div className="loading">Loading...</div>
   return (
     <div className="profile">
+      <ProfilePicForm showPicForm={showPicForm} showPicFormFunction={showPicFormFunction} />
       <button className="logout" onClick={logout}>
         Log out
       </button>
       <div className="profile-name-pic">
-        <div className="profile-pic"></div>
+        <div className="profile-pic">
+          <img src={profileData.profilePic} alt="profile pic" />
+          <button
+            onClick={showPicFormFunction}
+            className={showPicForm ? "btn-not-clickable" : !profileData.profilePic ? "profile-pic-btn" : "profile-pic-btn hide"}
+          >
+            <BiImageAdd className="new-pic-icon" />
+          </button>
+        </div>
         <p className="profile-name">{profileData.username}</p>
       </div>
       <div className="profile-content">

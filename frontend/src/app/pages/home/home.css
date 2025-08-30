@@ -7,13 +7,25 @@
 /* .home-posts-container.no-scroll {
   overflow-y: hidden;
 } */
+.refreshBtn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 2px;
+  background: var(--blue);
+  color: var(--darkgreen);
+  width: fit-content;
+  font-size: 1.5rem;
+}
 .deer-icon-home {
   display: block;
   margin: 1rem auto;
   color: var(--yellow);
   font-size: 4rem;
 }
-
 .allPosts-list {
   display: flex;
   flex-direction: column;

@@ -1,14 +1,24 @@
-const { runAllChains } = require("express-validator/lib/utils")
 const prisma = require("../prisma_client/prisma_client")
 
 //GET ALL POSTS
 module.exports.allPosts = async (req, res) => {
+  const profileFollowing = await prisma.follows.findMany({
+    where: {
+      followedByUsername: req.user.username,
+    },
+    select: {
+      followingUsername: true,
+    },
+  })
+  const followingUsers = profileFollowing.map((user) => user.followingUsername)
+
   const allPosts = await prisma.posts.findMany({
     where: {
       authorUsername: {
-        not: req.user.username,
+        in: followingUsers,
       },
     },
+
     include: {
       likes: {
         where: {
@@ -19,7 +29,11 @@ module.exports.allPosts = async (req, res) => {
         },
       },
     },
+    orderBy: {
+      id: "desc",
+    },
   })
+
   res.json({ allPosts })
 }
 //LIKE POST
@@ -49,6 +63,9 @@ module.exports.getPostComments = async (req, res) => {
   const postComments = await prisma.comments.findMany({
     where: {
       postId: Number(req.params.postId),
+    },
+    orderBy: {
+      id: "desc",
     },
   })
   res.json({ postComments })

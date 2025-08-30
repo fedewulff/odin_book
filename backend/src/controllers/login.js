@@ -13,7 +13,7 @@ module.exports.login = (req, res, next) => {
       if (err) {
         return next(err)
       }
-      return res.json({ message: "Login successful", user: req.user })
+      return res.sendStatus(200)
     })
   })(req, res, next)
 }

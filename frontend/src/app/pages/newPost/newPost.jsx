@@ -1,17 +1,26 @@
 import { useState } from "react"
+import socket from "../../../../socket/socket"
 import { GiDeer } from "react-icons/gi"
 import { RiArrowDownWideLine } from "react-icons/ri"
 import "./newPost.css"
 
 function NewPost({ newPost, setNewPost }) {
   const [postText, setPostText] = useState("")
-  const hideCreatePost = () => setNewPost(!newPost)
 
+  const hideCreatePost = () => setNewPost(!newPost)
   const handleChange = (e) => {
     const newValue = e.target.value
     const lines = newValue.split("\n")
     if (lines.length <= 8) {
       setPostText(newValue)
+    }
+  }
+  const sendMessage = (e) => {
+    e.preventDefault()
+    if (postText) {
+      socket.emit("new post", { postText }) // Emit a 'chat message' event to the server
+      setPostText("")
+      hideCreatePost()
     }
   }
 
@@ -47,7 +56,7 @@ function NewPost({ newPost, setNewPost }) {
         <RiArrowDownWideLine />
       </button>
       <p>300 characters max</p>
-      <form action="" onSubmit={createPost}>
+      <form action="" onSubmit={sendMessage}>
         <label htmlFor="post">Post</label>
         <textarea name="post" id="post" maxLength={300} rows={8} spellCheck="false" value={postText} onChange={handleChange}></textarea>
         <button type="submit">Post</button>
