@@ -2,7 +2,7 @@
 .newPost-container {
   display: flex;
   flex-direction: column;
-  width: 50rem;
+  width: 49.5rem;
   height: 100svh;
   background: var(--yellow);
   padding: 1.5rem;

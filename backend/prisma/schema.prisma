@@ -15,16 +15,17 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  username   String       @unique
-  password   String
-  profilePic String?
-  following  Follows[]    @relation("following")
-  followedBy Follows[]    @relation("followedBy")
-  posts      Posts[]
-  comments   Comments[]
-  likes      Likes[]
-  followReqs FollowReqs[]
+  id            Int          @id @default(autoincrement())
+  username      String       @unique
+  password      String
+  profilePic    String?
+  following     Follows[]    @relation("following")
+  followedBy    Follows[]    @relation("followedBy")
+  posts         Posts[]
+  comments      Comments[]
+  likes         Likes[]
+  followReqTo   FollowReqs[] @relation("followReqTo")
+  followReqFrom FollowReqs[] @relation("followReqFrom")
 }
 
 model Follows {
@@ -66,8 +67,9 @@ model Likes {
 }
 
 model FollowReqs {
-  user                  User   @relation(fields: [followReqToUsername], references: [username], onDelete: Cascade)
+  followReqTo           User   @relation("followReqTo", fields: [followReqToUsername], references: [username], onDelete: Cascade)
   followReqToUsername   String
+  followReqFrom         User   @relation("followReqFrom", fields: [followReqFromUsername], references: [username], onDelete: Cascade)
   followReqFromUsername String
 
   @@id([followReqToUsername, followReqFromUsername])

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import PostComment from "./postComment"
 import "./home.css"
 import { GiDeer } from "react-icons/gi"
+import { BsFillPersonFill } from "react-icons/bs"
 import { IoMdHeart } from "react-icons/io"
 import { RiArrowDownWideLine } from "react-icons/ri"
 
@@ -12,7 +13,6 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
   const [postData, setPostData] = useState({})
   const [showCommentForm, setShowCommentForm] = useState(false)
   const [loading, setLoading] = useState(true)
-
   const navigate = useNavigate()
 
   function showCommentFormFunction(postId, postAuthor, index) {
@@ -112,7 +112,18 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
           {allPosts.map((post, index) => (
             <div key={index} className={showCommentForm ? "post-and-comments blur" : "post-and-comments"}>
               <li>
-                <h3>{post.authorUsername}</h3>
+                <div className="profilePic-author">
+                  <div className="home-profilePic">
+                    {post.author.profilePic && <img src={post.author.profilePic}></img>}
+                    {!post.author.profilePic && (
+                      <div className="profilePic-icon-home">
+                        {" "}
+                        <BsFillPersonFill />
+                      </div>
+                    )}
+                  </div>
+                  <h3>{post.authorUsername}</h3>
+                </div>
                 <p>{post.text}</p>
                 <div className="allPosts-list-buttons">
                   <button

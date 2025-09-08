@@ -24,7 +24,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         body: JSON.stringify({ username, password }),
       })
       if (response.status === 200) {
-        socket.connect()
+        socket.disconnect().connect()
         navigate("/home")
       }
       if (response.status === 401) {

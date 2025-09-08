@@ -24,7 +24,7 @@ module.exports.newProfilePic = async (req, res) => {
       profilePic: cloudinaryImage.secure_url,
     },
   })
-  res.sendStatus(200)
+  res.json({ imageUrl: cloudinaryImage.secure_url })
 }
 //GET PROFILE POSTS
 module.exports.profilePosts = async (req, res) => {
@@ -55,6 +55,9 @@ module.exports.profileFollowing = async (req, res) => {
     },
     select: {
       followingUsername: true,
+      following: {
+        select: { profilePic: true },
+      },
     },
   })
   res.json({ profileFollowing })
@@ -67,6 +70,9 @@ module.exports.profileFollowers = async (req, res) => {
     },
     select: {
       followedByUsername: true,
+      followedBy: {
+        select: { profilePic: true },
+      },
     },
   })
   res.json({ profileFollowers })

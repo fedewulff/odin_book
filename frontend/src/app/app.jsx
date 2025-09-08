@@ -15,37 +15,40 @@ function App() {
   const [statusCode, setStatusCode] = useState()
   const [refreshBtn, setRefreshBtn] = useState(false)
 
-  socket.on("connect", () => {
-    console.log("connected")
-  })
-  socket.once("mensaje", (data) => {
-    console.log(data)
-  })
-  function connectSocket() {
-    console.log(99)
+  useEffect(() => {
     socket.once("connect", () => {
-      console.log("connected")
+      console.log("connected to socket")
+      socket.once("disconnect", () => {
+        console.log("Disconnected from server:")
+      })
     })
-    socket.on("new post", () => {
-      setRefreshBtn(true)
-    })
-    socket.once("mensaje", (data) => {
-      console.log(data)
-    })
-    socket.once("disconnect", () => {
-      console.log("Disconnected from server:")
+    socket.on("new post", () => setRefreshBtn(true))
+    socket.on("server error", () => {
+      setStatusCode(500)
+      setError(true)
     })
     return () => {
       socket.off("connect")
       socket.off("new post")
       socket.off("disconnect")
     }
-  }
+  }, [])
+
+  // function connectSocket() {
+  //   console.log(99)
+  //   socket.once("connect", () => {
+  //     console.log("connected")
+  //   })
+  //   socket.on("new post", () => {
+  //     setRefreshBtn(true)
+  //   })
+  //   socket.once("mensaje", (data) => {
+  //     console.log(data)
+  //   })
+
+  // }
 
   async function getUsername() {
-    console.log("get username")
-    console.log(socket.connected)
-
     try {
       const response = await fetch("http://localhost:3001/getUsername", {
         credentials: "include",
@@ -59,20 +62,12 @@ function App() {
         throw new Error(`${response.statusText} - Error code:${response.status}`)
       }
       const data = await response.json()
-      console.log(socket.connected)
       ;(() => socket.emit("addUserToSocket", { user: data.user.username }))()
     } catch (error) {
       console.error(error)
       setError(true)
     }
   }
-  useEffect(() => {
-    // console.log(socket)
-    // if (socket.connected) {
-    //   getUsername()
-    // }
-    // connectSocket()
-  }, [])
 
   if (error) return <ErrorInRequest statusCode={statusCode || "unknown"} />
   return (

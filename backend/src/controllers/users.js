@@ -6,6 +6,9 @@ module.exports.getFriendRequests = async (req, res) => {
     where: {
       followReqToUsername: req.user.username,
     },
+    include: {
+      followReqFrom: { select: { profilePic: true } },
+    },
   })
   res.json({ friendRequests })
 }
@@ -46,7 +49,7 @@ module.exports.users = async (req, res) => {
       },
     },
     include: {
-      followReqs: {
+      followReqTo: {
         where: {
           followReqFromUsername: req.user.username,
         },
@@ -56,6 +59,7 @@ module.exports.users = async (req, res) => {
       },
     },
   })
+
   res.status(200).json({ users })
 }
 //SEARCH USER

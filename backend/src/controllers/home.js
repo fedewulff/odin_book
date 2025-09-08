@@ -18,7 +18,6 @@ module.exports.allPosts = async (req, res) => {
         in: followingUsers,
       },
     },
-
     include: {
       likes: {
         where: {
@@ -26,6 +25,11 @@ module.exports.allPosts = async (req, res) => {
         },
         select: {
           likedByUsername: true,
+        },
+      },
+      author: {
+        select: {
+          profilePic: true,
         },
       },
     },

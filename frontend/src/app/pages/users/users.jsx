@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import "./users.css"
 import { IoSearch } from "react-icons/io5"
+import { BsFillPersonFill } from "react-icons/bs"
 
 function Users({ setError, setStatusCode }) {
   const [loading, setLoading] = useState(true)
@@ -42,6 +43,7 @@ function Users({ setError, setStatusCode }) {
         throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
       }
       const data = await response.json()
+      console.log(data)
       setFriendRequests(data.friendRequests)
     } catch (error) {
       console.error(error)
@@ -124,6 +126,7 @@ function Users({ setError, setStatusCode }) {
         throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
       }
       const data = await response.json()
+      console.log(data)
       setUsers(data.users)
     } catch (error) {
       console.error(error)
@@ -211,8 +214,20 @@ function Users({ setError, setStatusCode }) {
             <h3>Friend requests:</h3>
             {friendRequests.map((friendReq, index) => (
               <li key={index}>
-                <p>{friendReq.followReqFromUsername}</p>
-                <div>
+                <div className="profilePic-name-users">
+                  <div className="users-profilePic">
+                    {friendReq.followReqFrom.profilePic && <img src={friendReq.followReqFrom.profilePic}></img>}
+                    {!friendReq.followReqFrom.profilePic && (
+                      <div className="profilePic-icon-users">
+                        {" "}
+                        <BsFillPersonFill />
+                      </div>
+                    )}
+                  </div>
+                  <p>{friendReq.followReqFromUsername}</p>
+                </div>
+
+                <div className="accept-deny-buttons">
                   <button className="accept-friend-button" onClick={() => acceptFriendReq(friendReq.followReqFromUsername)}>
                     Accept
                   </button>
@@ -229,13 +244,25 @@ function Users({ setError, setStatusCode }) {
             <h3>Users:</h3>
             {users.map((user, index) => (
               <li key={index}>
-                <p>{user.username}</p>
-                {!user.followReqs[0] && (
+                <div className="profilePic-name-users">
+                  <div className="users-profilePic">
+                    {user.profilePic && <img src={user.profilePic}></img>}
+                    {!user.profilePic && (
+                      <div className="profilePic-icon-users">
+                        {" "}
+                        <BsFillPersonFill />
+                      </div>
+                    )}
+                  </div>
+                  <p>{user.username}</p>
+                </div>
+
+                {!user.followReqTo[0] && (
                   <button className="follow-button" onClick={() => sendFriendReq(user.username)}>
                     Follow
                   </button>
                 )}
-                {user.followReqs[0] && (
+                {user.followReqTo[0] && (
                   <button className="requested-button" onClick={() => deleteFriendReq(user.username)}>
                     Requested
                   </button>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+import { BsFillPersonFill } from "react-icons/bs"
 
 function Follows() {
   const [error, setError] = useState(false)
@@ -79,7 +80,19 @@ function Follows() {
         <ul className="following-followers-list">
           {following.map((userFollowed, index) => (
             <li key={index} className="following-followers-item">
-              {userFollowed.followingUsername}
+              <div className="profilePic-name-follows">
+                <div className="follows-profilePic">
+                  {userFollowed.following.profilePic && <img src={userFollowed.following.profilePic}></img>}
+                  {!userFollowed.following.profilePic && (
+                    <div className="profilePic-icon">
+                      {" "}
+                      <BsFillPersonFill />
+                    </div>
+                  )}
+                </div>
+                <p>{userFollowed.followingUsername}</p>
+              </div>
+
               <button className="following-followers-delete-button" onClick={() => deleteFollow(userFollowed.followingUsername)}>
                 Delete
               </button>
@@ -91,7 +104,19 @@ function Follows() {
         <ul className="following-followers-list">
           {followers.map((follower, index) => (
             <li key={index} className="following-followers-item">
-              {follower.followedByUsername}
+              <div className="profilePic-name-follows">
+                <div className="follows-profilePic">
+                  {follower.followedBy.profilePic && <img src={follower.followedBy.profilePic}></img>}
+                  {!follower.followedBy.profilePic && (
+                    <div className="profilePic-icon">
+                      {" "}
+                      <BsFillPersonFill />
+                    </div>
+                  )}
+                </div>
+                <p>{follower.followedByUsername}</p>
+              </div>
+
               <button className="following-followers-delete-button" onClick={() => deleteFollow(follower.followedByUsername)}>
                 Delete
               </button>

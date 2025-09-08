@@ -31,38 +31,7 @@ app.use(passport.session())
 app.use(cookieParser())
 
 io.engine.use(sessionMiddleware)
-//io.on("connection", (socket) => {
-//console.log(999)
-//   const user = socket.request.session.passport // Access authenticated user data
-//const sessionId = socket.request.session.id
 
-//   socket.data.username = user.user
-//   console.log(socket.data)
-//   console.log(socket.data.username)
-// console.log(socket.id)
-// console.log("session id")
-// console.log(sessionId)
-// console.log(socket.request.session)
-//   if (user) {
-//     console.log(`User ${user.user} connected to Socket.IO`)
-//     // Handle real-time events for authenticated users
-//   } else {
-//     console.log("Unauthenticated user connected to Socket.IO")
-//     socket.disconnect(true) // Disconnect unauthenticated users
-//   }
-//   async function pepe() {
-//     const sockets = await io.fetchSockets()
-//     const friendSocketId = sockets.filter((x) => "roberto" === x.data.username).map((x) => x.id)
-//     console.log(123)
-//     console.log(friendSocketId[0])
-//     // io.to(friendSocketId).emit("mensaje", { msg: "asdasd" })
-//   }
-//   pepe()
-//   io.emit("mensaje", { msg: "asdasd" })
-//   socket.on("disconnect", () => {
-//     console.log(`User ${user.user} left `)
-//   })
-//})
 app.use("/", routes)
 
 app.use((err, req, res, next) => {

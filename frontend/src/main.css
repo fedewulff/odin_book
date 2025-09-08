@@ -5,12 +5,12 @@
   font-family: "Nata Sans", sans-serif;
 }
 :root {
-  --darkgreen: #222831;
-  --green: #31363f;
-  --yellow: #a27b5c;
-  --white: #fffff0;
-  --blue: #4bb0b6;
-  --red: #bd4543;
+  --darkgreen: #141516;
+  --green: #252930;
+  --yellow: #3c9b8e;
+  --white: #fffff0d7;
+  --blue: #4bb1b6cc;
+  --red: #bd4543e3;
 }
 body {
   background: var(--darkgreen);

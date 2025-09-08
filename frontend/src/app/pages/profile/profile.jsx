@@ -15,7 +15,7 @@ import { BiCommentDetail } from "react-icons/bi"
 function Profile({ setError, setStatusCode }) {
   const [loading, setLoading] = useState(true)
   const [showPicForm, setShowPicForm] = useState(false)
-  const [profileData, setProfileDate] = useState([])
+  const [profileData, setProfileData] = useState({})
   const [myPosts, setMyPosts] = useState(true)
   const [follows, setFollows] = useState(false)
   const [comments, setComments] = useState(false)
@@ -38,8 +38,8 @@ function Profile({ setError, setStatusCode }) {
           throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
         }
         const data = await response.json()
-        console.log(data)
-        setProfileDate(data.profileData)
+
+        setProfileData(data.profileData)
       } catch (error) {
         console.error(error)
         setError(true)
@@ -74,13 +74,13 @@ function Profile({ setError, setStatusCode }) {
   if (loading) return <div className="loading">Loading...</div>
   return (
     <div className="profile">
-      <ProfilePicForm showPicForm={showPicForm} showPicFormFunction={showPicFormFunction} />
+      <ProfilePicForm profileData={profileData} setProfileData={setProfileData} showPicForm={showPicForm} showPicFormFunction={showPicFormFunction} />
       <button className="logout" onClick={logout}>
         Log out
       </button>
       <div className="profile-name-pic">
         <div className="profile-pic">
-          <img src={profileData.profilePic} alt="profile pic" />
+          {profileData.profilePic && <img src={profileData.profilePic} alt="profile pic" />}
           <button
             onClick={showPicFormFunction}
             className={showPicForm ? "btn-not-clickable" : !profileData.profilePic ? "profile-pic-btn" : "profile-pic-btn hide"}

@@ -2,13 +2,10 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import { IoClose } from "react-icons/io5"
 
-function ProfilePicForm({ showPicForm, showPicFormFunction }) {
+function ProfilePicForm({ profileData, setProfileData, showPicForm, showPicFormFunction }) {
   const [file, setFile] = useState(null)
 
-  const handleNewFile = (event) => {
-    setFile(event.target.files[0])
-    console.log(event.target.files[0])
-  }
+  const handleNewFile = (event) => setFile(event.target.files[0])
 
   const formData = new FormData()
   formData.append("newFile", file)
@@ -30,6 +27,8 @@ function ProfilePicForm({ showPicForm, showPicFormFunction }) {
       if (!response.ok) {
         throw new Error("Error uploading profile pic")
       }
+      const data = await response.json()
+      setProfileData({ ...profileData, profilePic: data.imageUrl })
       setFile(null)
       showPicFormFunction()
     } catch (error) {

@@ -5,17 +5,10 @@ const { io } = require("../server")
 //CREATE POST
 
 io.on("connection", (socket) => {
-  console.log("----------------")
-  console.log("socket id", socket.id)
-
-  console.log(socket.request.session.passport)
-
   if (socket.request.session.passport && !socket.username) {
-    console.log("passport")
     socket.username = socket.request.session.passport.user
   }
-  console.log(socket.username, "and", socket.id)
-
+  console.log(socket.request.session.passport, "socket id:", socket.id)
   socket.on("new post", async (data) => {
     try {
       await prisma.posts.create({
@@ -24,7 +17,6 @@ io.on("connection", (socket) => {
           authorUsername: socket.username,
         },
       })
-
       const followedBy = await prisma.follows.findMany({
         where: {
           followingUsername: socket.username,
@@ -48,6 +40,7 @@ io.on("connection", (socket) => {
       })
     } catch (error) {
       console.error(error)
+      socket.emit("server error")
     }
   })
   socket.on("disconnect", () => {
