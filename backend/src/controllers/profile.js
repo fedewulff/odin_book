@@ -10,6 +10,7 @@ module.exports.profileData = async (req, res) => {
   })
   res.json({ profileData })
 }
+//ADD PROFILE PIC
 module.exports.newProfilePic = async (req, res) => {
   const cloudinaryImage = await cloudinary.uploader.upload(
     `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
