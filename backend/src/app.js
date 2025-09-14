@@ -9,16 +9,17 @@ const routes = require("./routes/routes")
 const cookieParser = require("cookie-parser")
 const { app, server, io } = require("./server")
 
+app.set("trust proxy", 1)
 const sessionMiddleware = expressSession({
   secret: process.env.SESSION_SECRET,
   cookie: {
     maxAge: 7 * 24 * 60 * 60 * 1000, // mss
-    secure: true, // Must be true when sameSite is 'none'
-    sameSite: "none", //Added so it is not blocked by cross-site
+    secure: process.env.NODE_ENV === "production" ? true : process.env.NODE_ENV === "development" ? false : true, // Must be true when sameSite is 'none'
+    sameSite: process.env.NODE_ENV === "production" ? "none" : process.env.NODE_ENV === "development" ? "lax" : "true", //Added so it is not blocked by cross-site
   },
 
   resave: false,
-  saveUninitialized: true, // set to true for production
+  saveUninitialized: process.env.NODE_ENV === "production" ? true : process.env.NODE_ENV === "development" ? false : true, // set to true for production
   store: new PrismaSessionStore(prisma, {
     checkPeriod: 2 * 60 * 1000, //ms
     dbRecordIdIsSessionId: true,
