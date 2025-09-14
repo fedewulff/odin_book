@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { BsFillPersonFill } from "react-icons/bs"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function Follows() {
   const [error, setError] = useState(false)
@@ -17,7 +18,7 @@ function Follows() {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetch(showFollowing ? "http://localhost:3001/profileFollowing" : "http://localhost:3001/profileFollowers", {
+        const response = await fetch(showFollowing ? `${URL}/profileFollowing` : `${URL}/profileFollowers`, {
           credentials: "include",
         })
         if (response.status === 401) {
@@ -41,7 +42,7 @@ function Follows() {
 
   async function deleteFollow(username) {
     try {
-      const response = await fetch(showFollowing ? "http://localhost:3001/deleteFollowing" : "http://localhost:3001/deleteFollower", {
+      const response = await fetch(showFollowing ? `${URL}/deleteFollowing` : `${URL}/deleteFollower`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

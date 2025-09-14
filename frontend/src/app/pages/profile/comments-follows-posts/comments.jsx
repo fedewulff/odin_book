@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function Comments() {
   const [error, setError] = useState(false)
@@ -13,7 +14,7 @@ function Comments() {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetch("http://localhost:3001/profileComments", {
+        const response = await fetch(`${URL}/profileComments`, {
           credentials: "include",
         })
         if (response.status === 401) {
@@ -37,7 +38,7 @@ function Comments() {
 
   async function deleteComment(commentId) {
     try {
-      const response = await fetch("http://localhost:3001/deleteComment", {
+      const response = await fetch(`${URL}/deleteComment`, {
         method: "DELETE",
         credentials: "include",
         headers: {

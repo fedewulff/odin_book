@@ -44,7 +44,7 @@ function Users({ setError, setStatusCode }) {
         throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
       }
       const data = await response.json()
-      console.log(data)
+
       setFriendRequests(data.friendRequests)
     } catch (error) {
       console.error(error)
@@ -127,7 +127,6 @@ function Users({ setError, setStatusCode }) {
         throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
       }
       const data = await response.json()
-      console.log(data)
       setUsers(data.users)
     } catch (error) {
       console.error(error)

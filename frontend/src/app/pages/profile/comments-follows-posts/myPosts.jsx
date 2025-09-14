@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function MyPosts() {
   const [error, setError] = useState(false)
@@ -13,7 +14,7 @@ function MyPosts() {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetch("http://localhost:3001/profilePosts", {
+        const response = await fetch(`${URL}/profilePosts`, {
           credentials: "include",
         })
         if (response.status === 401) {
@@ -36,7 +37,7 @@ function MyPosts() {
 
   async function deletePost(postId) {
     try {
-      const response = await fetch("http://localhost:3001/deletePost", {
+      const response = await fetch(`${URL}/deletePost`, {
         method: "DELETE",
         credentials: "include",
         headers: {
