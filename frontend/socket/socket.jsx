@@ -1,5 +1,6 @@
+const URL = import.meta.env.VITE_BACKEND_URL
 import io from "socket.io-client"
-const socket = io("http://localhost:3001", {
+const socket = io(`${URL}`, {
   // autoConnect: false,
   withCredentials: true,
 })
