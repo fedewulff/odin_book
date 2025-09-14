@@ -9,13 +9,15 @@ const routes = require("./routes/routes")
 const cookieParser = require("cookie-parser")
 const { app, server, io } = require("./server")
 
+app.set("trust proxy", 1)
 const sessionMiddleware = expressSession({
+  secret: process.env.SESSION_SECRET,
   cookie: {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    maxAge: 7 * 24 * 60 * 60 * 1000, // mss
     secure: true, // Must be true when sameSite is 'none'
     sameSite: "none", //Added so it is not blocked by cross-site
   },
-  secret: process.env.SESSION_SECRET,
+
   resave: false,
   saveUninitialized: false,
   store: new PrismaSessionStore(prisma, {
