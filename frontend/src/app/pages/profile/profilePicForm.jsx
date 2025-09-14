@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { IoClose } from "react-icons/io5"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function ProfilePicForm({ profileData, setProfileData, showPicForm, showPicFormFunction }) {
   const [file, setFile] = useState(null)
@@ -14,7 +15,7 @@ function ProfilePicForm({ profileData, setProfileData, showPicForm, showPicFormF
     e.preventDefault()
 
     try {
-      const response = await fetch("http://localhost:3001/newProfilePic", {
+      const response = await fetch(`${URL}/newProfilePic`, {
         method: "POST",
 
         credentials: "include",
