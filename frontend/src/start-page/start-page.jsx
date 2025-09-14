@@ -6,6 +6,7 @@ import LogIn from "./login-signup/login"
 import SignUp from "./login-signup/signup"
 import ErrorInRequest from "../error/errorInRequest"
 import "./start-page.css"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function StartPage() {
   const [showStartPage, setShowStartPage] = useState(false)
@@ -18,7 +19,7 @@ function StartPage() {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetch("http://localhost:3001/isNotAuthenticated", {
+        const response = await fetch(`${URL}/isNotAuthenticated`, {
           credentials: "include",
         })
         if (response.status === 409) {
