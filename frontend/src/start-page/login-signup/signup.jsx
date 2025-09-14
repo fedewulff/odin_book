@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { FaArrowDown } from "react-icons/fa"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
   const [username, setUsername] = useState("")
@@ -40,7 +41,7 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
     setSignUpError([])
     if (!isValidUsername || !isValidPwd || !isValidConfPwd || !passwordsMatch) return
     try {
-      const response = await fetch("http://localhost:3001/signup", {
+      const response = await fetch(`${URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

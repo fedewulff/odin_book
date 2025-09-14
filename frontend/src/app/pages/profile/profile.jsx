@@ -11,6 +11,7 @@ import { BiImageAdd } from "react-icons/bi"
 import { IoMdList } from "react-icons/io"
 import { IoPeopleCircleOutline } from "react-icons/io5"
 import { BiCommentDetail } from "react-icons/bi"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function Profile({ setError, setStatusCode }) {
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,7 @@ function Profile({ setError, setStatusCode }) {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetch("http://localhost:3001/profileData", {
+        const response = await fetch(`${URL}/profileData`, {
           credentials: "include",
         })
         if (response.status === 401) {
@@ -51,7 +52,7 @@ function Profile({ setError, setStatusCode }) {
   async function logout() {
     socket.disconnect()
     try {
-      const response = await fetch("http://localhost:3001/logout", {
+      const response = await fetch(`${URL}/logout`, {
         method: "POST",
         credentials: "include",
       })

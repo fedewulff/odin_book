@@ -6,6 +6,7 @@ import { GiDeer } from "react-icons/gi"
 import { BsFillPersonFill } from "react-icons/bs"
 import { IoMdHeart } from "react-icons/io"
 import { RiArrowDownWideLine } from "react-icons/ri"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
   const [message, setMessage] = useState("")
@@ -29,7 +30,7 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
   }
   async function getAllPosts() {
     try {
-      const response = await fetch("http://localhost:3001/allPosts", {
+      const response = await fetch(`${URL}/allPosts`, {
         credentials: "include",
       })
       if (response.status === 401) {
@@ -57,7 +58,7 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
       setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, likes: [] } : post)))
     }
     try {
-      const response = await fetch(!allPosts[index].likes[0] ? "http://localhost:3001/likePost" : "http://localhost:3001/dislikePost", {
+      const response = await fetch(!allPosts[index].likes[0] ? `${URL}/likePost` : `${URL}/dislikePost`, {
         method: !allPosts[index].likes[0] ? "POST" : "DELETE",
         credentials: "include",
         headers: {
@@ -82,7 +83,7 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
       return
     }
     try {
-      const response = await fetch(`http://localhost:3001/getPostComments/${postId}`, {
+      const response = await fetch(`${URL}/getPostComments/${postId}`, {
         credentials: "include",
       })
       if (response.status === 401) {

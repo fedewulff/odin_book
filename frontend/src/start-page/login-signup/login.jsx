@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import socket from "../../../socket/socket"
 import "./login-signup.css"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
   const [username, setUsername] = useState("")
@@ -15,7 +16,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
     e.preventDefault()
     if (!username || !password) return
     try {
-      const response = await fetch("http://localhost:3001/login", {
+      const response = await fetch(`${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

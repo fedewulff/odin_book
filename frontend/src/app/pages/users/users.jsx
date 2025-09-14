@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import "./users.css"
 import { IoSearch } from "react-icons/io5"
 import { BsFillPersonFill } from "react-icons/bs"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function Users({ setError, setStatusCode }) {
   const [loading, setLoading] = useState(true)
@@ -27,7 +28,7 @@ function Users({ setError, setStatusCode }) {
 
   async function getFriendRequests() {
     try {
-      const response = await fetch("http://localhost:3001/getFriendRequests", {
+      const response = await fetch(`${URL}/getFriendRequests`, {
         credentials: "include",
       })
       if (response.status === 401) {
@@ -54,7 +55,7 @@ function Users({ setError, setStatusCode }) {
   }
   async function acceptFriendReq(username) {
     try {
-      const response = await fetch("http://localhost:3001/acceptFriendRequest", {
+      const response = await fetch(`${URL}/acceptFriendRequest`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +77,7 @@ function Users({ setError, setStatusCode }) {
   }
   async function denyFriendReq(username) {
     try {
-      const response = await fetch("http://localhost:3001/denyFriendReq", {
+      const response = await fetch(`${URL}/denyFriendReq`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +111,7 @@ function Users({ setError, setStatusCode }) {
     if (userToSearch === ".") userToSearch = "Z"
     if (userToSearch === "..") userToSearch = "ZZ"
     try {
-      const response = await fetch(userToSearch ? `http://localhost:3001/searchUser/${userToSearch}` : "http://localhost:3001/users", {
+      const response = await fetch(userToSearch ? `${URL}/searchUser/${userToSearch}` : `${URL}/users`, {
         credentials: "include",
       })
       if (response.status === 401) {
@@ -137,7 +138,7 @@ function Users({ setError, setStatusCode }) {
   }
   async function sendFriendReq(username) {
     try {
-      const response = await fetch("http://localhost:3001/sendFriendReq", {
+      const response = await fetch(`${URL}/sendFriendReq`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +164,7 @@ function Users({ setError, setStatusCode }) {
   }
   async function deleteFriendReq(username) {
     try {
-      const response = await fetch("http://localhost:3001/deleteFriendReq", {
+      const response = await fetch(`${URL}/deleteFriendReq`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

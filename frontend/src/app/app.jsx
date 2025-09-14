@@ -19,7 +19,7 @@ function App() {
     socket.once("connect", () => {
       console.log("connected to socket")
       socket.once("disconnect", () => {
-        console.log("Disconnected from server:")
+        console.log("Disconnected from socket")
       })
     })
     socket.on("new post", () => setRefreshBtn(true))
@@ -31,43 +31,30 @@ function App() {
       socket.off("connect")
       socket.off("new post")
       socket.off("disconnect")
+      socket.off("server error")
     }
   }, [])
 
-  // function connectSocket() {
-  //   console.log(99)
-  //   socket.once("connect", () => {
-  //     console.log("connected")
-  //   })
-  //   socket.on("new post", () => {
-  //     setRefreshBtn(true)
-  //   })
-  //   socket.once("mensaje", (data) => {
-  //     console.log(data)
-  //   })
-
+  // async function getUsername() {
+  //   try {
+  //     const response = await fetch("http://localhost:3001/getUsername", {
+  //       credentials: "include",
+  //     })
+  //     if (response.status === 409) {
+  //       navigate("/home")
+  //       return
+  //     }
+  //     if (!response.ok) {
+  //       setStatusCode(response.status)
+  //       throw new Error(`${response.statusText} - Error code:${response.status}`)
+  //     }
+  //     const data = await response.json()
+  //     ;(() => socket.emit("addUserToSocket", { user: data.user.username }))()
+  //   } catch (error) {
+  //     console.error(error)
+  //     setError(true)
+  //   }
   // }
-
-  async function getUsername() {
-    try {
-      const response = await fetch("http://localhost:3001/getUsername", {
-        credentials: "include",
-      })
-      if (response.status === 409) {
-        navigate("/home")
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status}`)
-      }
-      const data = await response.json()
-      ;(() => socket.emit("addUserToSocket", { user: data.user.username }))()
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    }
-  }
 
   if (error) return <ErrorInRequest statusCode={statusCode || "unknown"} />
   return (

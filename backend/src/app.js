@@ -25,7 +25,7 @@ const sessionMiddleware = expressSession({
 // app.use(express.urlencoded({ extended: true })) /*NO ES NECESARIO, CON APIS USO expres.json()*/
 app.use(express.json()) /*CONVIERTE EL JSON STRING ENVIADO EN EL PUT O POST REQ A UN OBJECT Y RELLENA REQ.BODY*/
 app.use(cookieParser())
-app.use(cors({ origin: true, credentials: true })) // Enable CORS for Express routes as well
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true })) // Enable CORS for Express routes as well
 app.use(sessionMiddleware)
 app.use(passport.session())
 app.use(cookieParser())

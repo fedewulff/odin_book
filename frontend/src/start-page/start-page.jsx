@@ -38,7 +38,7 @@ function StartPage() {
       }
     })()
   }, [])
-  console.log(import.meta.env.VITE_API_KEY)
+
   if (loading) return <div className="loading">Loading...</div>
   if (error) return <ErrorInRequest statusCode={statusCode} />
   if (showStartPage)

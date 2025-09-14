@@ -24,30 +24,30 @@ function NewPost({ newPost, setNewPost }) {
     }
   }
 
-  async function createPost(e) {
-    e.preventDefault()
-    try {
-      const response = await fetch("http://localhost:3001/createPost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ postText }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status}`)
-      }
-      setPostText("")
-      hideCreatePost()
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  // async function createPost(e) {
+  //   e.preventDefault()
+  //   try {
+  //     const response = await fetch("http://localhost:3001/createPost", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //       body: JSON.stringify({ postText }),
+  //     })
+  //     if (response.status === 401) {
+  //       navigate("/")
+  //       return
+  //     }
+  //     if (!response.ok) {
+  //       throw new Error(`${response.statusText} - Error code:${response.status}`)
+  //     }
+  //     setPostText("")
+  //     hideCreatePost()
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
   return (
     <div className={newPost ? "newPost-container active" : "newPost-container"}>
