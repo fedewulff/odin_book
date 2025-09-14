@@ -19,7 +19,7 @@ const sessionMiddleware = expressSession({
   },
 
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: new PrismaSessionStore(prisma, {
     checkPeriod: 2 * 60 * 1000, //ms
     dbRecordIdIsSessionId: true,
