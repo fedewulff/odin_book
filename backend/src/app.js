@@ -12,6 +12,8 @@ const { app, server, io } = require("./server")
 const sessionMiddleware = expressSession({
   cookie: {
     maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    secure: true, // Must be true when sameSite is 'none'
+    sameSite: "none", //Added so it is not blocked by cross-site
   },
   secret: process.env.SESSION_SECRET,
   resave: false,
