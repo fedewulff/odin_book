@@ -12,7 +12,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
 
   const showLoginForm = () => setShowLogin(!showLogin)
 
-  async function login(e) {
+  async function login(e, username, password) {
     e.preventDefault()
     if (!username || !password) return
     try {
@@ -49,7 +49,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
 
   return (
     <div className={showLogin ? "formContainer active" : "formContainer "}>
-      <form action="" method="post" className="vertical" onSubmit={login}>
+      <form action="" method="post" className="vertical" onSubmit={(e) => login(e, username, password)}>
         <label htmlFor="usernameLogin">Username</label>
         <input
           type="text"
@@ -72,7 +72,9 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
         <div className="error-list-msg">{errorMessage}</div>
         <button type="submit">Log in</button>
       </form>
-      <button className="guest-button">Log in as guest</button>
+      <button className="guest-button" onClick={(e) => login(e, "guest", "Guest.1234")}>
+        Log in as guest
+      </button>
       <div className="division-line-container">
         <div className="division-line"></div>
         <div>or</div>
