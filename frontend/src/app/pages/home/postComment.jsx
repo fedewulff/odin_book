@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { IoClose } from "react-icons/io5"
+const URL = import.meta.env.VITE_BACKEND_URL
 
 function PostComment({ setShowCommentForm, postData, allPosts, setAllPosts }) {
   const hideCommentFormFunction = () => setShowCommentForm(false)
@@ -15,7 +16,7 @@ function PostComment({ setShowCommentForm, postData, allPosts, setAllPosts }) {
   async function commentPost(e, postId, postComment, postIndex) {
     e.preventDefault()
     try {
-      const response = await fetch("http://localhost:3001/commentPost", {
+      const response = await fetch(`${URL}/commentPost`, {
         method: "POST",
         credentials: "include",
         headers: {
