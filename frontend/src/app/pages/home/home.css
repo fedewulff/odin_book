@@ -173,16 +173,16 @@
   border-bottom: none;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  position: sticky;
+  position: fixed;
   width: 100%;
   padding: 0.75rem;
   bottom: -40rem;
-  transition: 400ms ease-out;
+  transition: 0ms ease-out;
 }
 .comment-form-container.active {
   bottom: 0;
   transition: 400ms ease-out;
-  /* position: sticky; */
+  position: sticky;
 }
 
 .comment-form {
