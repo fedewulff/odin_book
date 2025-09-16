@@ -106,26 +106,26 @@
 .users-list li button,
 .friend-req-list li button {
   color: var(--white);
-  border: none;
   border-radius: 5px;
   font-size: 1.25rem;
-  font-weight: 600;
   width: 8rem;
   cursor: pointer;
   padding-bottom: 0.25rem;
   height: fit-content;
 }
 .deny-friend-button {
-  background: var(--red);
   margin-left: 0.5rem;
 }
 
 .accept-friend-button,
 .follow-button {
   background: var(--blue);
+  border: 1px solid var(--blue);
 }
-.requested-button {
-  background: #606c79;
+.requested-button,
+.deny-friend-button {
+  background: var(--green);
+  border: 1px solid var(--white);
 }
 
 .users-container form input:focus-visible {

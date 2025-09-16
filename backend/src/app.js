@@ -19,7 +19,7 @@ const sessionMiddleware = expressSession({
   },
 
   resave: false,
-  saveUninitialized: process.env.NODE_ENV === "production" ? true : process.env.NODE_ENV === "development" ? false : true, // set to true for production
+  saveUninitialized: process.env.NODE_ENV === "production" ? false : process.env.NODE_ENV === "development" ? false : false, // set to true for production
   store: new PrismaSessionStore(prisma, {
     checkPeriod: 2 * 60 * 1000, //ms
     dbRecordIdIsSessionId: true,
