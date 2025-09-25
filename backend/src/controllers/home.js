@@ -38,7 +38,7 @@ module.exports.allPosts = async (req, res) => {
     },
   })
 
-  res.json({ allPosts })
+  res.json({ allPosts, message: "all posts" })
 }
 //LIKE POST
 module.exports.likePost = async (req, res) => {
@@ -48,7 +48,7 @@ module.exports.likePost = async (req, res) => {
       likedByUsername: req.user.username,
     },
   })
-  res.sendStatus(200)
+  res.status(200).json({ message: "like post" })
 }
 //DISLIKE POST
 module.exports.dislikePost = async (req, res) => {
@@ -60,19 +60,20 @@ module.exports.dislikePost = async (req, res) => {
       },
     },
   })
-  res.sendStatus(200)
+  res.status(200).json({ message: "dislike post" })
 }
 //GET POST COMMENTS
 module.exports.getPostComments = async (req, res) => {
+  const postId = Number(req.params.postId)
   const postComments = await prisma.comments.findMany({
     where: {
-      postId: Number(req.params.postId),
+      postId: postId,
     },
     orderBy: {
       id: "desc",
     },
   })
-  res.json({ postComments })
+  res.json({ postComments, message: "post comments", postId })
 }
 //COMMENT POST
 module.exports.commentPost = async (req, res) => {
@@ -83,5 +84,5 @@ module.exports.commentPost = async (req, res) => {
       commentedByUsername: req.user.username,
     },
   })
-  res.json({ newComment })
+  res.json({ newComment, message: "comment on post", postId: req.body.postId })
 }

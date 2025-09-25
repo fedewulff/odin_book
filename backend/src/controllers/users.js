@@ -10,7 +10,7 @@ module.exports.getFriendRequests = async (req, res) => {
       followReqFrom: { select: { profilePic: true } },
     },
   })
-  res.json({ friendRequests })
+  res.json({ friendRequests, message: "friend requests" })
 }
 //ACCEPT FRIEND REQUEST
 module.exports.acceptFriendRequest = async (req, res) => {
@@ -20,7 +20,7 @@ module.exports.acceptFriendRequest = async (req, res) => {
       followedByUsername: req.body.username,
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "accept friend", fromUser: req.body.username })
 }
 //DENY FRIEND REQUEST
 module.exports.denyFriendRequest = async (req, res) => {
@@ -32,7 +32,7 @@ module.exports.denyFriendRequest = async (req, res) => {
       },
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "deny friend" })
 }
 //GET ALL USERS
 module.exports.users = async (req, res) => {
@@ -44,14 +44,14 @@ module.exports.users = async (req, res) => {
 
       following: {
         none: {
-          followedByUsername: req.user.username /* Exclude users where i follow them*/,
+          followedByUsername: req.user.username /* Exclude users i follow */,
         },
       },
     },
     include: {
       followReqTo: {
         where: {
-          followReqFromUsername: req.user.username,
+          followReqFromUsername: req.user.username /* Differentiate users i sent follow request to those i did not*/,
         },
         select: {
           followReqFromUsername: true,
@@ -60,7 +60,7 @@ module.exports.users = async (req, res) => {
     },
   })
 
-  res.status(200).json({ users })
+  res.json({ users, message: "users" })
 }
 //SEARCH USER
 module.exports.searchUser = async (req, res) => {
@@ -74,14 +74,14 @@ module.exports.searchUser = async (req, res) => {
 
       following: {
         none: {
-          followedByUsername: req.user.username /* Exclude users where i follow them*/,
+          followedByUsername: req.user.username /* Exclude users that i follow*/,
         },
       },
     },
     include: {
-      followReqs: {
+      followReqTo: {
         where: {
-          followReqFromUsername: req.user.username,
+          followReqFromUsername: req.user.username /* Differentiate users i sent follow request to those who i did not*/,
         },
         select: {
           followReqFromUsername: true,
@@ -89,7 +89,7 @@ module.exports.searchUser = async (req, res) => {
       },
     },
   })
-  res.status(200).json({ users })
+  res.json({ users, message: "users" })
 }
 //SEND FRIEND REQUEST
 module.exports.sendFriendRequest = async (req, res) => {
@@ -99,7 +99,7 @@ module.exports.sendFriendRequest = async (req, res) => {
       followReqFromUsername: req.user.username,
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "friend request sent" })
 }
 //DELETE FRIEND REQUEST
 module.exports.deleteFriendRequest = async (req, res) => {
@@ -111,5 +111,5 @@ module.exports.deleteFriendRequest = async (req, res) => {
       },
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "delete friend request" })
 }

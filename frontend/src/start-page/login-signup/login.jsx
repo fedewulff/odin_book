@@ -1,50 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import socket from "../../../socket/socket"
 import "./login-signup.css"
+import useSendRequest from "../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
-function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
+function LogIn({ showLogin, setShowLogin, setError }) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [errorMessage, setErrorMessage] = useState("")
-  const navigate = useNavigate()
+  const { fetchAPIs, loginErr, catchErr } = useSendRequest()
 
   const showLoginForm = () => setShowLogin(!showLogin)
+
+  useEffect(() => {
+    if (catchErr) setError(true)
+  }, [catchErr])
 
   async function login(e, username, password) {
     e.preventDefault()
     if (!username || !password) return
-    try {
-      const response = await fetch(`${URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username, password }),
-      })
-      if (response.status === 200) {
-        socket.disconnect().connect()
-        navigate("/home")
-      }
-      if (response.status === 401) {
-        const data = await response.json()
-        setErrorMessage(data.info.message)
-        return
-      }
-      if (response.status === 409) {
-        navigate("/home")
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status}`)
-      }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    }
+    fetchAPIs("POST", `${URL}/login`, { username, password })
   }
 
   return (
@@ -69,7 +44,7 @@ function LogIn({ showLogin, setShowLogin, setError, setStatusCode }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="error-list-msg">{errorMessage}</div>
+        <div className="error-list-msg">{loginErr}</div>
         <button type="submit">Log in</button>
       </form>
       <button className="guest-button" onClick={(e) => login(e, "guest", "Guest.1234")}>

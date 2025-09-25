@@ -10,7 +10,7 @@ const users = require("../controllers/users")
 const multer = require("../functions/multer")
 
 //CHECK IS NOT LOGGED IN
-routes.get("/isNotAuthenticated", isAuth.checkNotAuthenticated, (req, res) => res.sendStatus(200))
+routes.get("/isNotAuthenticated", isAuth.checkNotAuthenticated, (req, res) => res.status(200).json({ message: "not authenticated" }))
 //GET USERNAME
 routes.get("/getUsername", isAuth.checkAuthenticated, (req, res) => {
   console.log(req.sessionID, "user auth")

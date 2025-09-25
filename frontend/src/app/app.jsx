@@ -12,7 +12,6 @@ import "./app.css"
 function App() {
   const { page } = useParams()
   const [error, setError] = useState(false)
-  const [statusCode, setStatusCode] = useState()
   const [refreshBtn, setRefreshBtn] = useState(false)
 
   useEffect(() => {
@@ -56,16 +55,16 @@ function App() {
   //   }
   // }
 
-  if (error) return <ErrorInRequest statusCode={statusCode || "unknown"} />
+  if (error) return <ErrorInRequest />
   return (
     <div className="app">
       <div className="page-container">
         {page === "home" ? (
-          <Home setError={setError} setStatusCode={setStatusCode} refreshBtn={refreshBtn} setRefreshBtn={setRefreshBtn} />
+          <Home setError={setError} refreshBtn={refreshBtn} setRefreshBtn={setRefreshBtn} />
         ) : page === "profile" ? (
-          <Profile setError={setError} setStatusCode={setStatusCode} />
+          <Profile setError={setError} />
         ) : page === "users" ? (
-          <Users setError={setError} setStatusCode={setStatusCode} />
+          <Users setError={setError} />
         ) : (
           <ErrorURL />
         )}

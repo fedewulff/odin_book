@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FaArrowDown } from "react-icons/fa"
+import useSendRequest from "../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
-function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
+function SignUp({ showLogin, setShowLogin, setError }) {
   const [username, setUsername] = useState("")
   const [isValidUsername, setIsValidUsername] = useState(false)
   const [password, setPassword] = useState("")
@@ -10,10 +11,23 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isValidConfPwd, setIsValidConfPwd] = useState(false)
   const [passwordsMatch, setPasswordsMatch] = useState(false)
-  const [signUpError, setSignUpError] = useState([])
+  const { fetchAPIs, data, signupErr, catchErr } = useSendRequest()
 
   const showLoginForm = () => setShowLogin(!showLogin)
 
+  useEffect(() => {
+    if (catchErr) setError(true)
+  }, [catchErr])
+  useEffect(() => {
+    if (!data) return
+    if (data.message === "signup successful") {
+      setUsername("")
+      setPassword("")
+      setConfirmPassword("")
+      showLoginForm()
+      return
+    }
+  }, [data])
   function validateUsername(e) {
     setUsername(e.target.value)
     const usernameRegex = /^[a-z0-9_.-]{4,16}$/
@@ -35,41 +49,10 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
       setPasswordsMatch(true)
     } else setPasswordsMatch(false)
   }
-
   async function signUp(e) {
     e.preventDefault()
-    setSignUpError([])
     if (!isValidUsername || !isValidPwd || !isValidConfPwd || !passwordsMatch) return
-    try {
-      const response = await fetch(`${URL}/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password, confirmPassword }),
-      })
-
-      if (response.status === 200) {
-        setUsername("")
-        setPassword("")
-        setConfirmPassword("")
-        setSignUpError([])
-        showLoginForm()
-        return
-      }
-      if (response.status === 400) {
-        const data = await response.json()
-        setSignUpError(data.errors)
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status}`)
-      }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    }
+    fetchAPIs("POST", `${URL}/signup`, { username, password, confirmPassword })
   }
 
   return (
@@ -113,7 +96,7 @@ function SignUp({ showLogin, setShowLogin, setError, setStatusCode }) {
           onChange={validateConfPassword}
         />
         <ul className="error-list">
-          {signUpError.map((error, index) => (
+          {signupErr.map((error, index) => (
             <li key={index} className="error-list-msg">
               {error.msg}
             </li>

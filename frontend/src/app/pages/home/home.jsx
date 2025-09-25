@@ -6,75 +6,44 @@ import { GiDeer } from "react-icons/gi"
 import { BsFillPersonFill } from "react-icons/bs"
 import { IoMdHeart } from "react-icons/io"
 import { RiArrowDownWideLine } from "react-icons/ri"
+import useSendRequest from "../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
-function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
-  const [message, setMessage] = useState("")
+function Home({ setError, refreshBtn, setRefreshBtn }) {
   const [allPosts, setAllPosts] = useState([])
   const [postData, setPostData] = useState({})
   const [showCommentForm, setShowCommentForm] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
+  const { fetchAPIs, data, loading, catchErr } = useSendRequest()
 
   function showCommentFormFunction(postId, postAuthor, index) {
     setPostData({ postId, postAuthor, index })
     setShowCommentForm(true)
   }
-
   useEffect(() => {
-    getAllPosts()
+    if (catchErr) setError(true)
+  }, [catchErr])
+  useEffect(() => {
+    if (!data) return
+    if (data.message === "all posts") setAllPosts(data.allPosts)
+    if (data.message === "post comments")
+      setAllPosts((prevPosts) =>
+        prevPosts.map((post) => (post.id === data.postId ? { ...post, showComments: true, coments: data.postComments } : post))
+      )
+  }, [data])
+  useEffect(() => {
+    fetchAPIs("GET", `${URL}/allPosts`)
   }, [])
   function refreshPosts() {
-    getAllPosts()
+    getPostsUse("GET", `${URL}/allPosts`)
     setRefreshBtn(false)
-  }
-  async function getAllPosts() {
-    try {
-      const response = await fetch(`${URL}/allPosts`, {
-        credentials: "include",
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      const data = await response.json()
-      setRefreshBtn(false)
-      setAllPosts(data.allPosts)
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
   }
   async function likePost(postId, index) {
     if (!allPosts[index].likes[0]) {
       setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, likes: ["likedPost"] } : post)))
+      fetchAPIs("POST", `${URL}/likePost`, { postId })
     } else {
       setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, likes: [] } : post)))
-    }
-    try {
-      const response = await fetch(!allPosts[index].likes[0] ? `${URL}/likePost` : `${URL}/dislikePost`, {
-        method: !allPosts[index].likes[0] ? "POST" : "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-    } catch (error) {
-      console.error(error)
+      fetchAPIs("DELETE", `${URL}/dislikePost`, { postId })
     }
   }
   async function getComments(postId, index) {
@@ -82,22 +51,7 @@ function Home({ setError, setStatusCode, refreshBtn, setRefreshBtn }) {
       setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, showComments: false } : post)))
       return
     }
-    try {
-      const response = await fetch(`${URL}/getPostComments/${postId}`, {
-        credentials: "include",
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      const data = await response.json()
-      setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, showComments: true, coments: data.postComments } : post)))
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("GET", `${URL}/getPostComments/${postId}`)
   }
   if (loading) return <div className="loading">Loading...</div>
   return (

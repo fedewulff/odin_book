@@ -5,6 +5,7 @@ const URL = import.meta.env.VITE_BACKEND_URL
 
 function ProfilePicForm({ profileData, setProfileData, showPicForm, showPicFormFunction }) {
   const [file, setFile] = useState(null)
+  const navigate = useNavigate()
 
   const handleNewFile = (event) => setFile(event.target.files[0])
 
@@ -13,7 +14,6 @@ function ProfilePicForm({ profileData, setProfileData, showPicForm, showPicFormF
 
   async function newProfilePic(e) {
     e.preventDefault()
-
     try {
       const response = await fetch(`${URL}/newProfilePic`, {
         method: "POST",

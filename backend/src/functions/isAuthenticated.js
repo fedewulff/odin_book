@@ -2,7 +2,7 @@ module.exports.checkAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   }
-  return res.sendStatus(401) //REDIRECT
+  return res.status(401).json({ msg: "not authenticated" }) //REDIRECT
 }
 
 module.exports.checkNotAuthenticated = (req, res, next) => {

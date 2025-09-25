@@ -1,71 +1,36 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { BsFillPersonFill } from "react-icons/bs"
+import useSendRequest from "../../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
 function Follows() {
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [showFollowing, setShowFollowing] = useState(true)
   const [refreshFollows, setRefreshFollows] = useState(true)
   const [following, setFollowing] = useState([])
   const [followers, setFollowers] = useState([])
-  const navigate = useNavigate()
+  const { fetchAPIs, data, loading, catchErr } = useSendRequest()
 
   const showFollowingFunction = () => setShowFollowing(!showFollowing)
   const refreshFollowsFunction = () => setRefreshFollows(!refreshFollows)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await fetch(showFollowing ? `${URL}/profileFollowing` : `${URL}/profileFollowers`, {
-          credentials: "include",
-        })
-        if (response.status === 401) {
-          navigate("/")
-          return
-        }
-        if (!response.ok) {
-          throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-        }
-        const data = await response.json()
-        if (showFollowing) setFollowing(data.profileFollowing)
-        if (!showFollowing) setFollowers(data.profileFollowers)
-      } catch (error) {
-        console.error(error)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    if (!data) return
+    else if (data.message === "following") setFollowing(data.profileFollowing)
+    else if (data.message === "followers") setFollowers(data.profileFollowers)
+    else if (data.message === "delete following" || data.message === "delete follower") refreshFollowsFunction()
+  }, [data])
+  useEffect(() => {
+    if (showFollowing) fetchAPIs("GET", `${URL}/profileFollowing`)
+    else fetchAPIs("GET", `${URL}/profileFollowers`)
   }, [showFollowing, refreshFollows])
-
   async function deleteFollow(username) {
-    try {
-      const response = await fetch(showFollowing ? `${URL}/deleteFollowing` : `${URL}/deleteFollower`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      })
-
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      refreshFollowsFunction()
-    } catch {
-      console.error(error)
-    }
+    if (showFollowing) fetchAPIs("DELETE", `${URL}/deleteFollowing`, { username })
+    else fetchAPIs("DELETE", `${URL}/deleteFollower`, { username })
   }
 
   if (loading) return <div className="loading">Loading...</div>
-  if (error) return <p className="error">Oops, something went wrong</p>
+  if (catchErr) return <p className="error">Oops, something went wrong</p>
   return (
     <div>
       <div className="following-followers-btns">

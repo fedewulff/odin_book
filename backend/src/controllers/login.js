@@ -7,13 +7,13 @@ module.exports.login = (req, res, next) => {
       return next(err)
     }
     if (!user) {
-      return res.status(401).json({ message: "Authentication failed", info })
+      return res.status(401).json({ message: "wrong credentials", info })
     }
     req.logIn(user, (err) => {
       if (err) {
         return next(err)
       }
-      return res.sendStatus(200)
+      return res.status(200).json({ message: "login successful" })
     })
   })(req, res, next)
 }

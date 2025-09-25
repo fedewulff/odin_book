@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { IoClose } from "react-icons/io5"
+import useSendRequest from "../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
 function PostComment({ setShowCommentForm, postData, allPosts, setAllPosts }) {
-  const hideCommentFormFunction = () => setShowCommentForm(false)
   const [postComment, setPostComment] = useState("")
+  const [postIndex, setPostIndex] = useState()
+  const { fetchAPIs, data } = useSendRequest()
+  const hideCommentFormFunction = () => setShowCommentForm(false)
+
+  useEffect(() => {
+    if (!data) return
+    if (data.message === "comment on post") {
+      const updatedPostComments = [...allPosts[postIndex].coments, data.newComment]
+      setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === data.postId ? { ...post, coments: updatedPostComments } : post)))
+    }
+  }, [data])
 
   const handleChange = (e) => {
     const newValue = e.target.value
@@ -15,27 +26,10 @@ function PostComment({ setShowCommentForm, postData, allPosts, setAllPosts }) {
   }
   async function commentPost(e, postId, postComment, postIndex) {
     e.preventDefault()
-    try {
-      const response = await fetch(`${URL}/commentPost`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId, postComment }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      setPostComment("")
-      const data = await response.json()
-      const updatedPostComments = [...allPosts[postIndex].coments, data.newComment]
-      setAllPosts((prevPosts) => prevPosts.map((post) => (post.id === postId ? { ...post, coments: updatedPostComments } : post)))
-      hideCommentFormFunction()
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("POST", `${URL}/commentPost`, { postId, postComment })
+    setPostIndex(postIndex)
+    setPostComment("")
+    hideCommentFormFunction()
   }
   return (
     <>

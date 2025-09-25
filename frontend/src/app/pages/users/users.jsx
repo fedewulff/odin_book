@@ -1,103 +1,50 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router"
 import "./users.css"
 import { IoSearch } from "react-icons/io5"
 import { BsFillPersonFill } from "react-icons/bs"
+import useSendRequest from "../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
-function Users({ setError, setStatusCode }) {
-  const [loading, setLoading] = useState(true)
+function Users({ setError }) {
   const [friendRequests, setFriendRequests] = useState([])
   const [refreshFriendRequests, setRefreshFriendRequests] = useState(true)
   const [users, setUsers] = useState([])
   const [searchUser, setSearchUser] = useState("")
   const [refreshUsers, setRefreshUsers] = useState(true)
-
-  const navigate = useNavigate()
+  const { fetchAPIs, data, loading, catchErr, friendReq } = useSendRequest()
 
   const refreshUsersFunction = () => setRefreshUsers(!refreshUsers)
   const refreshFriendRequestsFunction = () => setRefreshFriendRequests(!refreshFriendRequests)
 
   useEffect(() => {
+    if (catchErr) setError(true)
+  }, [catchErr])
+  useEffect(() => {
+    if (!friendReq) return
+    else if (friendReq.message === "friend requests") setFriendRequests(friendReq.friendRequests)
+    else if (friendReq.message === "accept friend") denyFriendReq(friendReq.fromUser) /*accepted friend and now i delete request */
+    else if (friendReq.message === "deny friend") refreshFriendRequestsFunction()
+  }, [friendReq])
+  useEffect(() => {
+    if (!data) return
+    else if (data.message === "users") setUsers(data.users)
+    else if (data.message === "friend request sent" || data.message === "delete friend request") refreshUsersFunction()
+  }, [data])
+  useEffect(() => {
     getUsersList(searchUser)
   }, [refreshUsers])
-
   useEffect(() => {
     getFriendRequests()
   }, [refreshFriendRequests])
-
   async function getFriendRequests() {
-    try {
-      const response = await fetch(`${URL}/getFriendRequests`, {
-        credentials: "include",
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (response.status === 404) {
-        setFriendRequests([])
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      const data = await response.json()
-
-      setFriendRequests(data.friendRequests)
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
+    fetchAPIs("GET", `${URL}/getFriendRequests`)
   }
   async function acceptFriendReq(username) {
-    try {
-      const response = await fetch(`${URL}/acceptFriendRequest`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      denyFriendReq(username) // function called to delete the friend request
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("POST", `${URL}/acceptFriendRequest`, { username })
   }
   async function denyFriendReq(username) {
-    try {
-      const response = await fetch(`${URL}/denyFriendReq`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      refreshFriendRequestsFunction()
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("DELETE", `${URL}/denyFriendReq`, { username })
   }
-
   function handleChange(e) {
     setSearchUser(e.target.value)
     const usernameRegex = /^[a-z0-9_.-]*$/
@@ -108,83 +55,18 @@ function Users({ setError, setStatusCode }) {
     getUsersList(e.target.value)
   }
   async function getUsersList(userToSearch) {
+    if (!userToSearch) fetchAPIs("GET", `${URL}/users`)
     if (userToSearch === ".") userToSearch = "Z"
     if (userToSearch === "..") userToSearch = "ZZ"
-    try {
-      const response = await fetch(userToSearch ? `${URL}/searchUser/${userToSearch}` : `${URL}/users`, {
-        credentials: "include",
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (response.status === 404) {
-        setUsers([])
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      const data = await response.json()
-      setUsers(data.users)
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    } finally {
-      setLoading(false)
+    if (userToSearch) {
+      fetchAPIs("GET", `${URL}/searchUser/${userToSearch}`)
     }
   }
   async function sendFriendReq(username) {
-    try {
-      const response = await fetch(`${URL}/sendFriendReq`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      })
-      if (response.status === 200) {
-        refreshUsersFunction()
-        return
-      }
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        setStatusCode(response.status)
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("POST", `${URL}/sendFriendReq`, { username })
   }
   async function deleteFriendReq(username) {
-    try {
-      const response = await fetch(`${URL}/deleteFriendReq`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      })
-      if (response.status === 200) {
-        refreshUsersFunction()
-        return
-      }
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("DELETE", `${URL}/deleteFriendReq`, { username })
   }
 
   if (loading) return <div className="loading">Loading...</div>

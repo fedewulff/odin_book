@@ -8,7 +8,7 @@ module.exports.profileData = async (req, res) => {
       username: req.user.username,
     },
   })
-  res.json({ profileData })
+  res.json({ profileData, message: "profile data" })
 }
 //ADD PROFILE PIC
 module.exports.newProfilePic = async (req, res) => {
@@ -37,7 +37,7 @@ module.exports.profilePosts = async (req, res) => {
       id: "desc",
     },
   })
-  res.json({ profilePosts })
+  res.json({ profilePosts, message: "my posts" })
 }
 //DELETE POST
 module.exports.deletePost = async (req, res) => {
@@ -46,7 +46,7 @@ module.exports.deletePost = async (req, res) => {
       id: req.body.postId,
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "delete post" })
 }
 //GET PROFILE FOLLOWING
 module.exports.profileFollowing = async (req, res) => {
@@ -61,7 +61,7 @@ module.exports.profileFollowing = async (req, res) => {
       },
     },
   })
-  res.json({ profileFollowing })
+  res.json({ profileFollowing, message: "following" })
 }
 //GET PROFILE FOLLOWERS
 module.exports.profileFollowers = async (req, res) => {
@@ -76,7 +76,7 @@ module.exports.profileFollowers = async (req, res) => {
       },
     },
   })
-  res.json({ profileFollowers })
+  res.json({ profileFollowers, message: "followers" })
 }
 //DELETE FOLLOWING
 module.exports.deleteFollowing = async (req, res) => {
@@ -88,7 +88,7 @@ module.exports.deleteFollowing = async (req, res) => {
       },
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "delete following" })
 }
 //DELETE FOLLOWER
 module.exports.deleteFollower = async (req, res) => {
@@ -100,7 +100,7 @@ module.exports.deleteFollower = async (req, res) => {
       },
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "delete follower" })
 }
 //GET PROFILE COMMENTS
 module.exports.profileComments = async (req, res) => {
@@ -113,7 +113,7 @@ module.exports.profileComments = async (req, res) => {
     },
   })
 
-  res.json({ profileComments })
+  res.json({ profileComments, message: "get profile comments" })
 }
 //DELETE COMMENT
 module.exports.deleteComment = async (req, res) => {
@@ -122,7 +122,7 @@ module.exports.deleteComment = async (req, res) => {
       id: req.body.commentId,
     },
   })
-  res.sendStatus(200)
+  res.json({ message: "comment deleted" })
 }
 //LOG OUT
 module.exports.logout = (req, res, next) => {
@@ -135,7 +135,7 @@ module.exports.logout = (req, res, next) => {
         return next(err)
       }
       res.clearCookie("connect.sid") // Clear the session cookie
-      res.status(200).send("Logged out successfully")
+      res.status(200).json({ message: "logout" })
     })
   })
 }

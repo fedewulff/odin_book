@@ -7,64 +7,34 @@ import MyPosts from "./comments-follows-posts/myPosts"
 import Follows from "./comments-follows-posts/follows"
 import Comments from "./comments-follows-posts/comments"
 import "./profile.css"
-import { BiImageAdd } from "react-icons/bi"
+import { BiImageAdd, BiCommentDetail } from "react-icons/bi"
 import { IoMdList } from "react-icons/io"
 import { IoPeopleCircleOutline } from "react-icons/io5"
-import { BiCommentDetail } from "react-icons/bi"
+import useSendRequest from "../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
-function Profile({ setError, setStatusCode }) {
-  const [loading, setLoading] = useState(true)
+function Profile({ setError }) {
   const [showPicForm, setShowPicForm] = useState(false)
   const [profileData, setProfileData] = useState({})
   const [myPosts, setMyPosts] = useState(true)
   const [follows, setFollows] = useState(false)
   const [comments, setComments] = useState(false)
-  const navigate = useNavigate()
+  const { fetchAPIs, data, loading, catchErr } = useSendRequest()
 
   const showPicFormFunction = () => setShowPicForm(!showPicForm)
-
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await fetch(`${URL}/profileData`, {
-          credentials: "include",
-        })
-        if (response.status === 401) {
-          navigate("/")
-          return
-        }
-        if (!response.ok) {
-          setStatusCode(response.status)
-          throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-        }
-        const data = await response.json()
-
-        setProfileData(data.profileData)
-      } catch (error) {
-        console.error(error)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    if (catchErr) setError(true)
+  }, [catchErr])
+  useEffect(() => {
+    if (!data) return
+    if (data.message === "profile data") setProfileData(data.profileData)
+  }, [data])
+  useEffect(() => {
+    fetchAPIs("GET", `${URL}/profileData`)
   }, [])
   async function logout() {
     socket.disconnect()
-    try {
-      const response = await fetch(`${URL}/logout`, {
-        method: "POST",
-        credentials: "include",
-      })
-      if (response.ok) {
-        navigate("/")
-        return
-      } else {
-        console.error("Logout failed")
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("POST", `${URL}/logout`)
   }
   function showPosts(val1, val2, val3) {
     setMyPosts(val1)

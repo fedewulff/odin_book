@@ -54,7 +54,7 @@ module.exports.signup = [
         password: hashedPassword,
       },
     })
-    res.sendStatus(200)
+    res.status(200).json({ message: "signup successful" })
   },
   ,
 ]

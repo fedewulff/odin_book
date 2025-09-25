@@ -1,66 +1,28 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router"
+import useSendRequest from "../../../../hook/useSendRequest"
 const URL = import.meta.env.VITE_BACKEND_URL
 
 function Comments() {
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [profComments, setProfComments] = useState([])
   const [loadMyComments, setLoadMyComments] = useState(true)
-  const navigate = useNavigate()
+  const { fetchAPIs, data, loading, catchErr } = useSendRequest()
 
   const loadMyCommentsFunction = () => setLoadMyComments(!loadMyComments)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await fetch(`${URL}/profileComments`, {
-          credentials: "include",
-        })
-        if (response.status === 401) {
-          navigate("/")
-          return
-        }
-        if (!response.ok) {
-          setStatusCode(response.status)
-          throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-        }
-        const data = await response.json()
-        setProfComments(data.profileComments)
-      } catch (error) {
-        console.error(error)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    if (!data) return
+    else if (data.message === "get profile comments") setProfComments(data.profileComments)
+    else if (data.message === "comment deleted") loadMyCommentsFunction()
+  }, [data])
+  useEffect(() => {
+    fetchAPIs("GET", `${URL}/profileComments`)
   }, [loadMyComments])
-
   async function deleteComment(commentId) {
-    try {
-      const response = await fetch(`${URL}/deleteComment`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ commentId }),
-      })
-      if (response.status === 401) {
-        navigate("/")
-        return
-      }
-      if (!response.ok) {
-        throw new Error(`${response.statusText} - Error code:${response.status} - ${response.url}`)
-      }
-      loadMyCommentsFunction()
-    } catch (error) {
-      console.error(error)
-    }
+    fetchAPIs("DELETE", `${URL}/deleteComment`, { commentId })
   }
 
   if (loading) return <div className="loading">Loading...</div>
-  if (error) return <p className="error">Oops, something went wrong</p>
+  if (catchErr) return <p className="error">Oops, something went wrong</p>
   return (
     <div>
       {profComments[0] && (
