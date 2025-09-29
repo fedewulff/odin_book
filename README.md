@@ -1,8 +1,8 @@
 <h1 align="center">Deer</h1>
 
-<p align="center">A full-stack social media project from <a href="https://www.theodinproject.com/lessons/node-path-nodejs-odin-book">Odin</a></p>
+<p align="center">A full-stack social media project from <a href="https://www.theodinproject.com/lessons/nodejs-messaging-app">Odin</a></p>
 
-<br/><br/>
+## Demo: [Live](odin-book-frontend-7545.onrender.com)
 
 ## Frontend built with
 
@@ -14,7 +14,7 @@
 ### Dependencies
 
 - **react**: library for building user interfaces
-- **react-do**: provides DOM-specific methods for rendering and managing React components within a web browser's Document Object Model
+- **react-dom**: provides DOM-specific methods for rendering and managing React components within a web browser's Document Object Model
 - **react-icons**: library of icons
 - **react-router**: library designed specifically for React to handle client-side routing
 - **socket.io-client**: library for frontend enabling real-time, bidirectional, and event-based communication between clients and a server
@@ -27,7 +27,7 @@
 - Express
 - Passport
 - Prisma ORM
-- Cloudinary
+- Cloudinary (will be added shortly)
 - Multer
 
 ### Dependencies
@@ -54,7 +54,7 @@
 
 ## Clone and start the project
 
-Here is how you can start the projecct locally.
+Here is how you can start the project locally.
 
 Prerequisites:
 
@@ -92,7 +92,7 @@ VITE_BACKEND_URL="http://localhost:[PORT NUMBER FROM .env IN BACKEND]"
 - `$ psql`
 - 'CREATE DATABASE odin_book;`
 
-**6. Create CLoudinary account**
+**6. Create Cloudinary account** (skip this step)
 
 **7. Add the following to `.env` inside backend folder**
 
