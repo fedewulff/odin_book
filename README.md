@@ -1,6 +1,6 @@
 <h1 align="center">Deer</h1>
 
-<p align="center">A full-stack social media project from <a href="https://www.theodinproject.com/lessons/nodejs-messaging-app">Odin</a>
+<p align="center">A full-stack social media project from <a href="https://www.theodinproject.com/lessons/node-path-nodejs-odin-book">Odin</a>
 
 <h3>Demo: <a target="_blank" rel="noopener noreferrer" href="https://odin-book-frontend-7545.onrender.com">Deer</a></h3>
 
