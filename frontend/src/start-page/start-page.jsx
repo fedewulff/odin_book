@@ -12,8 +12,7 @@ const URL = import.meta.env.VITE_BACKEND_URL
 function StartPage() {
   const [error, setError] = useState(false)
   const [showLogin, setShowLogin] = useState(true)
-  const loading = true
-  const { fetchAPIs, catchErr } = useSendRequest()
+  const { fetchAPIs, loading, catchErr } = useSendRequest()
 
   useEffect(() => {
     fetchAPIs("GET", `${URL}/isNotAuthenticated`)
