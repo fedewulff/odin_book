@@ -9,11 +9,34 @@
   --green: #252930;
   --yellow: #3c9b8e;
   --white: #fffff0d7;
-  --blue: #4bb1b6cc;
+  --blue: #3c9b8e;
+  --blue-gradient: linear-gradient(0deg, var(--yellow) , #128f7e );
   --red: #bd4543e3;
+  --bg-dark: hsl(0 0 0);
+  --bg: hsl(0 0 7);
+  --bg-light: hsl(0 0 12);
+  --text: hsl(0 0 95);
+  --text-muted: hsl(0 0 70);
+  --border: hsl(0 0 30);
+  --gradient: linear-gradient(0deg, var(--bg) , var(--bg-light) );
+  --gradiend-hover: linear-gradient(0deg, var(--bg), var(--bg-light) 25%);
+  --shadow: 0px 2px 2px hsla(0, 0%, 20%, 0.25), 0px 4px 4px hsla(0, 0%, 20%, 0.5);
+  
 }
+body.light{
+  --bg-dark: hsl(0 0 90)
+  --bg: hsl(0 0 95)
+  --bg-light: hsl(0 0 100)
+  --text: hsl(0 0 5)
+  --text-muted: hsl(0 0 30)
+  --border: hsl(0 0 30);
+  --gradient: linear-gradient(0deg, var(--bg)95%,var(var(--bg-light)));
+  --gradiend-hover:  linear-gradient(0deg, var(--bg),var(var(--bg-light)))
+  --shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 0px 4px 4px hsla(0, 0%, 0%, 0.15);
+}
+
 body {
-  background: var(--darkgreen);
+  background: var(--bg-dark);
 }
 button {
   cursor: pointer;

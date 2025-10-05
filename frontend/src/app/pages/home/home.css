@@ -15,12 +15,19 @@
   padding: 0 1rem;
   border: none;
   border-radius: 2px;
-  background: var(--white);
-  color: var(--darkgreen);
+  background: var(--bg-light);
+  color: var(--text);
+  border: 1px solid var(--border);
   width: fit-content;
   font-size: 1.5rem;
   z-index: 2;
 }
+@media (hover: hover) {
+  .refreshBtn:hover {
+    background: var(--gradient);
+  }
+}
+
 .deer-icon-home {
   display: block;
   margin: 1rem auto;
@@ -36,10 +43,12 @@
 .post-and-comments {
   display: flex;
   flex-direction: column;
-  background: var(--green);
+  background: var(--gradient);
   padding: 0.5rem;
   border-radius: 5px;
   transition: 0.25s;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 .post-and-comments.blur {
   filter: blur(2px);
@@ -67,21 +76,21 @@
   object-position: center;
 }
 .profilePic-icon-home {
-  background: var(--darkgreen);
+  background: var(--bg-dark);
   display: flex;
   height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: var(--white);
+  color: var(--bg-light);
 }
 
 .post-and-comments h3 {
   font-size: 1.5rem;
   color: var(--yellow);
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 300;
 }
 .allPosts-list li {
   display: flex;
@@ -89,8 +98,9 @@
   white-space: pre-wrap; /* para respetar nuevas lineas en posteos*/
   word-wrap: break-word; /* For older browsers para quebrar string*/
   overflow-wrap: break-word; /* para quebrar el string si es muy largo*/
-  color: var(--white);
+  color: var(--text);
 }
+
 .allPosts-list-buttons {
   display: flex;
   justify-content: space-between;
@@ -103,7 +113,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--white);
+  color: var(--text);
   font-size: 1.75rem;
   cursor: pointer;
   margin: 0.75rem 0 0;
@@ -117,7 +127,26 @@
 }
 .like-button.liked {
   color: var(--red);
+  animation: wiggle 0.3s ease-in-out;
 }
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .post-comments-section {
   display: flex;
   flex-direction: column;
@@ -152,8 +181,13 @@
   border: none;
   border-radius: 5px;
   font-size: 1.25rem;
-  background: var(--yellow);
+  background: var(--blue);
   color: var(--darkgreen);
+}
+@media (hover: hover) {
+  .post-comments-section button:hover {
+    background: var(--blue-gradient);
+  }
 }
 
 .comments-container::-webkit-scrollbar,
@@ -168,8 +202,8 @@
 
 /*FORM TO MAKE COMMENT*/
 .comment-form-container {
-  background: var(--darkgreen);
-  border: 0.25rem solid var(--yellow);
+  background: var(--bg);
+  border: 2px solid var(--yellow);
   border-bottom: none;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -196,7 +230,7 @@
   display: flex;
   background: none;
   border: none;
-  color: var(--white);
+  color: var(--text);
   font-size: 2rem;
   width: fit-content;
   margin-left: auto;
@@ -219,13 +253,14 @@
   border-radius: 5px;
   width: 100%;
   font-size: 1.5rem;
-  padding: 0 0.25rem;
-  background: var(--white);
+  padding: 0.5rem;
+  background: var(--bg-light);
+  color: var(--text);
   resize: none;
 }
 
 .comment-form textarea:focus-visible {
-  outline: 2px solid var(--yellow);
+  outline: 1px solid var(--text);
 }
 
 .comment-form button {
@@ -250,6 +285,17 @@
 }
 
 @media (max-width: 600px) {
+  .deer-icon-home {
+    margin: 1rem auto;
+
+    font-size: 3.5rem;
+  }
+  .post-and-comments h3 {
+    font-size: 1.25rem;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+  }
   .comment-form textarea {
     font-size: 1rem;
   }

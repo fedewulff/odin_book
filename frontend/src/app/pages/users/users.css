@@ -23,7 +23,7 @@
   font-size: 1.75rem;
 }
 .input-container-icon {
-  color: var(--darkgreen);
+  color: var(--text);
 }
 .users-container form input {
   display: block;
@@ -33,7 +33,9 @@
   padding: 0.25rem 3.75rem 0.25rem 0.25rem;
   font-size: 1.5rem;
   border-radius: 5px;
-  background: var(--white);
+  background: var(--bg-light);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 .friendReqs-users-container {
   display: flex;
@@ -48,7 +50,9 @@
   flex-direction: column;
   gap: 0.5rem;
   list-style-type: none;
-  background: var(--green);
+  background: var(--gradient);
+  border: 1px solid var(--border);
+
   padding: 1rem;
   border-radius: 5px;
   width: 95%;
@@ -56,10 +60,10 @@
 }
 .users-list h3,
 .friend-req-list h3 {
-  color: var(--white);
-  font-size: 2rem;
-  text-decoration: underline;
+  color: var(--text);
+  font-size: 1.75rem;
   margin-bottom: 1rem;
+  font-weight: 100;
 }
 .users-list li,
 .friend-req-list li {
@@ -76,7 +80,7 @@
 }
 .profilePic-name-users p {
   margin-bottom: 0.5rem;
-  color: var(--white);
+  color: var(--text);
   font-size: 1.25rem;
 }
 .users-profilePic {
@@ -93,24 +97,24 @@
   object-position: center;
 }
 .profilePic-icon-users {
-  background: var(--darkgreen);
+  background: var(--bg-dark);
   display: flex;
   height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: var(--white);
+  color: var(--bg-light);
 }
 
 .users-list li button,
 .friend-req-list li button {
-  color: var(--white);
+  color: var(--text);
   border-radius: 5px;
   font-size: 1.25rem;
   width: 8rem;
   cursor: pointer;
-  padding-bottom: 0.25rem;
+  padding: 0.25rem;
   height: fit-content;
 }
 .deny-friend-button {
@@ -121,19 +125,32 @@
 .follow-button {
   background: var(--blue);
   border: 1px solid var(--blue);
-}
-.requested-button,
-.deny-friend-button {
-  background: var(--green);
-  border: 1px solid var(--white);
+  box-shadow: var(--shadow);
 }
 
+.requested-button,
+.deny-friend-button {
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+@media (hover: hover) {
+  .accept-friend-button:hover,
+  .follow-button:hover {
+    background: var(--blue-gradient);
+  }
+  .requested-button:hover,
+  .deny-friend-button:hover {
+    background: var(--bg-dark);
+  }
+}
 .users-container form input:focus-visible {
-  outline: 0.25rem solid var(--yellow);
+  outline: 2px solid var(--yellow);
 }
 .users-list li button:focus-visible,
 .friend-req-list li button:focus-visible {
-  outline: 0.125rem solid var(--white);
+  outline: 2px solid var(--white);
 }
 
 .friendReqs-users-container::-webkit-scrollbar {

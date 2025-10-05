@@ -13,7 +13,7 @@
   bottom: calc(-100svh - 18rem);
   transition: 400ms ease-out;
   opacity: 0;
-  z-index: 1;
+  z-index: 2;
 }
 .newPost-container.active {
   opacity: 1;

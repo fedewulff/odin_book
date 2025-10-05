@@ -32,8 +32,8 @@
 }
 .formContainer input {
   width: 100%;
-  color: var(--darkgreen);
-  background: var(--white);
+  color: var(--text);
+  background: var(--bg-light);
   font-size: 1.5rem;
   border: none;
   border-radius: 5px;
@@ -101,12 +101,12 @@
 }
 
 .formContainer input:focus-visible {
-  outline: 0.25rem solid var(--yellow);
+  outline: 2px solid var(--yellow);
 }
 .formContainer button:focus-visible,
 .guest-button :focus-visible,
 .signup-button :focus-visible {
-  outline: 0.25rem solid var(--white);
+  outline: 2px solid var(--white);
 }
 
 /*DIVISION LINE*/

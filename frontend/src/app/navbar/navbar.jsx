@@ -16,16 +16,24 @@ function Navbar() {
       <NewPost newPost={newPost} setNewPost={setNewPost} />
       <nav className="navbar">
         <NavLink to={"/profile"}>
-          <BsFillPersonFill className="icon" />
+          <div class="icon-container">
+            <BsFillPersonFill className="icon" />
+          </div>
         </NavLink>
         <button onClick={showCreatePost}>
-          <CgAddR className="icon" />
+          <div class="icon-container">
+            <CgAddR className="icon" />
+          </div>
         </button>
         <NavLink to={"/home"}>
-          <FaHome className="icon" />
+          <div class="icon-container">
+            <FaHome className="icon" />
+          </div>
         </NavLink>
         <NavLink to={"/users"} className={"navlink"}>
-          <BsPeopleFill className="icon" />
+          <div class="icon-container">
+            <BsPeopleFill className="icon" />
+          </div>
         </NavLink>
       </nav>
     </>
