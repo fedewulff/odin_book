@@ -34,7 +34,7 @@ function Home({ setError, refreshBtn, setRefreshBtn }) {
     fetchAPIs("GET", `${URL}/allPosts`)
   }, [])
   function refreshPosts() {
-    getPostsUse("GET", `${URL}/allPosts`)
+    fetchAPIs("GET", `${URL}/allPosts`)
     setRefreshBtn(false)
   }
   async function likePost(postId, index) {
