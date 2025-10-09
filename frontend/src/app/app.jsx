@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
 import socket from "../../socket/socket"
-import Navbar from "./navbar/navbar"
+import Navbar from "./components/navbar/navbar"
 import Home from "./pages/home/home"
 import Profile from "./pages/profile/profile"
 import Users from "./pages/users/users"
