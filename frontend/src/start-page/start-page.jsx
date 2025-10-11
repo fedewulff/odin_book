@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router"
-import socket from "../../socket/socket"
 import { GiDeer } from "react-icons/gi"
 import LogIn from "./login-signup/login"
 import SignUp from "./login-signup/signup"
 import ErrorInRequest from "../error/errorInRequest"
 import "./start-page.css"
 import useSendRequest from "../hook/useSendRequest"
+import SplitText from "../app/components/split-text"
+import gsap from "gsap"
 const URL = import.meta.env.VITE_BACKEND_URL
 
 function StartPage() {
@@ -30,7 +30,20 @@ function StartPage() {
   return (
     <div className="startPage-container">
       <GiDeer className="deer-icon" />
-      <h1>Welcome to deer </h1>
+      <SplitText
+        text="Welcome to deer"
+        className="text-2xl font-semibold text-center"
+        delay={100}
+        duration={0.6}
+        ease="power3.out"
+        splitType="chars"
+        from={{ opacity: 0, y: 40 }}
+        to={{ opacity: 1, y: 0 }}
+        threshold={0.1}
+        rootMargin="-100px"
+        textAlign="center"
+        tag="h1"
+      />
       <LogIn showLogin={showLogin} setShowLogin={setShowLogin} setError={setError} />
       <SignUp showLogin={showLogin} setShowLogin={setShowLogin} setError={setError} />
     </div>

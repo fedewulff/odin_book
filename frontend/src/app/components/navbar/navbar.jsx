@@ -3,7 +3,7 @@ import { NavLink } from "react-router"
 import { CgAddR } from "react-icons/cg"
 import { BsFillPersonFill, BsPeopleFill } from "react-icons/bs"
 import { FaHome } from "react-icons/fa"
-import NewPost from "../pages/newPost/newPost"
+import NewPost from "../../pages/newPost/newPost"
 import "./navbar.css"
 
 function Navbar() {
