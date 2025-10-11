@@ -35,7 +35,8 @@ Demo is being deployed on a free tier Paas. It might take a minute to load.
 - Express
 - Passport
 - Prisma ORM
-- Cloudinary (will be added shortly)
+- Websockets (Socket.io)
+- Cloudinary 
 - Multer
 
 ### Dependencies
@@ -100,7 +101,7 @@ VITE_BACKEND_URL="http://localhost:[PORT NUMBER FROM .env IN BACKEND]"
 - `$ psql`
 - 'CREATE DATABASE odin_book;`
 
-**6. Create Cloudinary account** (skip this step)
+**6. Create Cloudinary account** 
 
 **7. Add the following to `.env` inside backend folder**
 
