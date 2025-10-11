@@ -7,6 +7,8 @@
 <h3>Demo: <a href="https://odin-book-frontend-7545.onrender.com">Deer</a></h3>
 Demo is being deployed on a free tier Paas. It might take a minute to load.
 
+<br/><br/>
+
 ## Frontend built with
 
 - Vite + React
