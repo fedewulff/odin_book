@@ -18,11 +18,14 @@ Demo is being deployed on a free tier Paas. It might take a minute to load.
 
 ### Dependencies
 
+- **gsap**: library for creating animations on websites
+- **@gsap/react**: a package that allows to use the GreenSock Animation Platform (GSAP) with React, providing a useGSAP() hook to simplify animation creation and management
 - **react**: library for building user interfaces
 - **react-dom**: provides DOM-specific methods for rendering and managing React components within a web browser's Document Object Model
 - **react-icons**: library of icons
 - **react-router**: library designed specifically for React to handle client-side routing
 - **socket.io-client**: library for frontend enabling real-time, bidirectional, and event-based communication between clients and a server
+
 
 <br/><br/>
 
