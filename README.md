@@ -5,7 +5,7 @@
 <h3>Video sample: <a href="https://www.loom.com/share/0b0358d33d7b4e60a12786ae9553fa48?sid=8a114279-ff44-4a85-bb63-67671d2562eb">Deer</a></h3>
 
 <h3>Demo: <a href="https://odin-book-frontend-7545.onrender.com">Deer</a></h3>
-Demo is being deployed on a free tier Paas. It might take a minute to load.
+Demo is being deployed on a free tier PaaS. It might take a minute to load.
 
 <br/><br/>
 
