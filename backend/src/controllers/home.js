@@ -1,4 +1,4 @@
-const prisma = require("../prisma_client/prisma_client")
+const prisma = require("../prisma_client/prisma_client");
 
 //GET ALL POSTS
 module.exports.allPosts = async (req, res) => {
@@ -9,8 +9,8 @@ module.exports.allPosts = async (req, res) => {
     select: {
       followingUsername: true,
     },
-  })
-  const followingUsers = profileFollowing.map((user) => user.followingUsername)
+  });
+  const followingUsers = profileFollowing.map((user) => user.followingUsername);
 
   const allPosts = await prisma.posts.findMany({
     where: {
@@ -36,10 +36,9 @@ module.exports.allPosts = async (req, res) => {
     orderBy: {
       id: "desc",
     },
-  })
-
-  res.json({ allPosts, message: "all posts" })
-}
+  });
+  res.json({ allPosts, message: "all posts" });
+};
 //LIKE POST
 module.exports.likePost = async (req, res) => {
   await prisma.likes.create({
@@ -47,9 +46,9 @@ module.exports.likePost = async (req, res) => {
       postLikedId: req.body.postId,
       likedByUsername: req.user.username,
     },
-  })
-  res.status(200).json({ message: "like post" })
-}
+  });
+  res.status(200).json({ message: "like post" });
+};
 //DISLIKE POST
 module.exports.dislikePost = async (req, res) => {
   await prisma.likes.delete({
@@ -59,12 +58,12 @@ module.exports.dislikePost = async (req, res) => {
         likedByUsername: req.user.username,
       },
     },
-  })
-  res.status(200).json({ message: "dislike post" })
-}
+  });
+  res.status(200).json({ message: "dislike post" });
+};
 //GET POST COMMENTS
 module.exports.getPostComments = async (req, res) => {
-  const postId = Number(req.params.postId)
+  const postId = Number(req.params.postId);
   const postComments = await prisma.comments.findMany({
     where: {
       postId: postId,
@@ -72,9 +71,9 @@ module.exports.getPostComments = async (req, res) => {
     orderBy: {
       id: "desc",
     },
-  })
-  res.json({ postComments, message: "post comments", postId })
-}
+  });
+  res.json({ postComments, message: "post comments", postId });
+};
 //COMMENT POST
 module.exports.commentPost = async (req, res) => {
   const newComment = await prisma.comments.create({
@@ -83,6 +82,7 @@ module.exports.commentPost = async (req, res) => {
       postId: req.body.postId,
       commentedByUsername: req.user.username,
     },
-  })
-  res.json({ newComment, message: "comment on post", postId: req.body.postId })
-}
+  });
+
+  res.json({ newComment, message: "comment on post", postId: req.body.postId });
+};
