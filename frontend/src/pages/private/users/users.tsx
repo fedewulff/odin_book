@@ -21,8 +21,7 @@ function Users({ setError }: UsersProps) {
   const { fetchAPIs, data, loading, catchErr, friendReq } = useSendRequest();
 
   const refreshUsersFunction = () => setRefreshUsers(!refreshUsers);
-  const refreshFriendRequestsFunction = () =>
-    setRefreshFriendRequests(!refreshFriendRequests);
+  const refreshFriendRequestsFunction = () => setRefreshFriendRequests(!refreshFriendRequests);
 
   //SEARCH USER
   useEffect(() => {
@@ -59,12 +58,9 @@ function Users({ setError }: UsersProps) {
   }, [refreshFriendRequests]);
   useEffect(() => {
     if (!friendReq) return;
-    else if (friendReq.message === "friend requests")
-      setFriendRequests(friendReq.friendRequests ?? []);
-    else if (friendReq.message === "accept friend" && friendReq?.fromUser)
-      denyFriendReq(friendReq.fromUser);
-    else if (friendReq.message === "deny friend")
-      refreshFriendRequestsFunction();
+    else if (friendReq.message === "friend requests") setFriendRequests(friendReq.friendRequests ?? []);
+    else if (friendReq.message === "accept friend" && friendReq?.fromUser) denyFriendReq(friendReq.fromUser);
+    else if (friendReq.message === "deny friend") refreshFriendRequestsFunction();
   }, [friendReq]);
   async function getFriendRequests() {
     fetchAPIs("GET", `${URL}/getFriendRequests`);
@@ -83,11 +79,7 @@ function Users({ setError }: UsersProps) {
   useEffect(() => {
     if (!data) return;
     else if (data.message === "users") setUsers(data.users ?? []);
-    else if (
-      data.message === "friend request sent" ||
-      data.message === "delete friend request"
-    )
-      refreshUsersFunction();
+    else if (data.message === "friend request sent" || data.message === "delete friend request") refreshUsersFunction();
   }, [data]);
 
   //SEND OR UNSEND FRIEND REQUESTS
@@ -132,9 +124,7 @@ function Users({ setError }: UsersProps) {
               <li key={index}>
                 <div className="profilePic-name-users">
                   <div className="users-profilePic">
-                    {friendReq.followReqFrom.profilePic && (
-                      <img src={friendReq.followReqFrom.profilePic}></img>
-                    )}
+                    {friendReq.followReqFrom.profilePic && <img src={friendReq.followReqFrom.profilePic}></img>}
                     {!friendReq.followReqFrom.profilePic && (
                       <div className="profilePic-icon-users">
                         {" "}
@@ -148,18 +138,11 @@ function Users({ setError }: UsersProps) {
                 <div className="accept-deny-buttons">
                   <button
                     className="accept-friend-button"
-                    onClick={() =>
-                      acceptFriendReq(friendReq.followReqFromUsername)
-                    }
+                    onClick={() => acceptFriendReq(friendReq.followReqFromUsername)}
                   >
                     Accept
                   </button>
-                  <button
-                    className="deny-friend-button"
-                    onClick={() =>
-                      denyFriendReq(friendReq.followReqFromUsername)
-                    }
-                  >
+                  <button className="deny-friend-button" onClick={() => denyFriendReq(friendReq.followReqFromUsername)}>
                     Deny
                   </button>
                 </div>
@@ -186,18 +169,12 @@ function Users({ setError }: UsersProps) {
                 </div>
 
                 {!user.followReqTo[0] && (
-                  <button
-                    className="follow-button"
-                    onClick={() => sendFriendReq(user.username)}
-                  >
+                  <button className="follow-button" onClick={() => sendFriendReq(user.username)}>
                     Follow
                   </button>
                 )}
                 {user.followReqTo[0] && (
-                  <button
-                    className="requested-button"
-                    onClick={() => deleteFriendReq(user.username)}
-                  >
+                  <button className="requested-button" onClick={() => deleteFriendReq(user.username)}>
                     Requested
                   </button>
                 )}

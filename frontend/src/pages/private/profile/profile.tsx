@@ -59,17 +59,11 @@ function Profile({ setError }: HomeProps) {
       </button>
       <div className="profile-name-pic">
         <div className="profile-pic">
-          {profileData.profilePic && (
-            <img src={profileData.profilePic} alt="profile pic" />
-          )}
+          {profileData.profilePic && <img src={profileData.profilePic} alt="profile pic" />}
           <button
             onClick={showPicFormFunction}
             className={
-              showPicForm
-                ? "btn-not-clickable"
-                : !profileData.profilePic
-                ? "profile-pic-btn"
-                : "profile-pic-btn hide"
+              showPicForm ? "btn-not-clickable" : !profileData.profilePic ? "profile-pic-btn" : "profile-pic-btn hide"
             }
           >
             <BiImageAdd className="new-pic-icon" />

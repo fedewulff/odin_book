@@ -105,12 +105,7 @@ function useFetchData() {
   const friendReqJson = ["friend requests", "accept friend", "deny friend"];
   const navigate = useNavigate();
 
-  async function fetchAPI(
-    method: FetchMethod,
-    url: string,
-    info: JsonObject | null,
-    signal?: AbortSignal
-  ) {
+  async function fetchAPI(method: FetchMethod, url: string, info: JsonObject | null, signal?: AbortSignal) {
     return fetch(url, {
       method: method,
       credentials: "include",
@@ -134,7 +129,6 @@ function useFetchData() {
       } else if (friendReqJson.includes(result.message)) {
         setFriendReq(result);
       } else {
-        console.log(result);
         setData(result);
       }
     } else if (status === 400) {
@@ -151,12 +145,7 @@ function useFetchData() {
       navigate("/home");
     }
   }
-  const fetchAPIs = async (
-    method: FetchMethod,
-    url: string,
-    info: JsonObject | null = null,
-    signal?: AbortSignal
-  ) => {
+  const fetchAPIs = async (method: FetchMethod, url: string, info: JsonObject | null = null, signal?: AbortSignal) => {
     try {
       const response = await fetchAPI(method, url, info, signal);
       if (!response.ok && !statusErrors.includes(response.status))

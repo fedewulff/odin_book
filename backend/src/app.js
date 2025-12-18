@@ -1,15 +1,15 @@
-require("dotenv").config()
-const express = require("express")
-const cors = require("cors")
-const expressSession = require("express-session")
-const { PrismaSessionStore } = require("@quixo3/prisma-session-store")
-const passport = require("passport")
-const prisma = require("./prisma_client/prisma_client")
-const routes = require("./routes/routes")
-const cookieParser = require("cookie-parser")
-const { app, server, io } = require("./server")
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const expressSession = require("express-session");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const passport = require("passport");
+const prisma = require("./prisma_client/prisma_client");
+const routes = require("./routes/routes");
+const cookieParser = require("cookie-parser");
+const { app, server, io } = require("./server");
 
-app.set("trust proxy", 1)
+app.set("trust proxy", 1);
 const sessionMiddleware = expressSession({
   secret: process.env.SESSION_SECRET,
   cookie: {
@@ -19,29 +19,35 @@ const sessionMiddleware = expressSession({
   },
 
   resave: false,
-  saveUninitialized: process.env.NODE_ENV === "production" ? false : process.env.NODE_ENV === "development" ? false : false, // set to true for production
+  saveUninitialized:
+    process.env.NODE_ENV === "production" ? false : process.env.NODE_ENV === "development" ? false : false, // set to true for production
   store: new PrismaSessionStore(prisma, {
     checkPeriod: 2 * 60 * 1000, //ms
     dbRecordIdIsSessionId: true,
     dbRecordIdFunction: undefined,
   }),
-})
+});
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+); // Enable CORS for Express routes as well
 // app.use(express.urlencoded({ extended: true })) /*NO ES NECESARIO, CON APIS USO expres.json()*/
-app.use(express.json()) /*CONVIERTE EL JSON STRING ENVIADO EN EL PUT O POST REQ A UN OBJECT Y RELLENA REQ.BODY*/
-app.use(cookieParser())
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true })) // Enable CORS for Express routes as well
-app.use(sessionMiddleware)
-app.use(passport.session())
-app.use(cookieParser())
+app.use(express.json()); /*CONVIERTE EL JSON STRING ENVIADO EN EL PUT O POST REQ A UN OBJECT Y RELLENA REQ.BODY*/
+app.use(cookieParser());
 
-io.engine.use(sessionMiddleware)
+app.use(sessionMiddleware);
+app.use(passport.session());
 
-app.use("/", routes)
+io.engine.use(sessionMiddleware);
+
+app.use("/", routes);
 
 app.use((err, req, res, next) => {
-  console.error(`\x1b[31m${err}\x1b[0m`)
-  res.status(err.statusCode || 500).json({ messageToUser: err.messageToUser || "Internal Server Error" })
-})
+  console.error(`\x1b[31m${err}\x1b[0m`);
+  res.status(err.statusCode || 500).json({ messageToUser: err.messageToUser || "Internal Server Error" });
+});
 
-const PORT = process.env.PORT || 7000
-server.listen(PORT, () => console.log(`Express app listening on port ${PORT}!`))
+const PORT = process.env.PORT || 7000;
+server.listen(PORT, () => console.log(`Express app listening on port ${PORT}!`));
